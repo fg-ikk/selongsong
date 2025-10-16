@@ -453,6 +453,14 @@
             canvas.dispatchEvent(me);
         }, false);
 
+        canvas.onwheel = function(event){
+            event.preventDefault();
+        }
+
+        canvas.onmousewheel = function(event){
+            event.preventDefault();
+        }
+
         function getMousePos(canvasDom, mouseEvent) {
             var rect = canvasDom.getBoundingClientRect();
             return {
