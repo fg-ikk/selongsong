@@ -217,17 +217,7 @@
         
                           </ul>
         
-                          <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Chart &amp; Maps</div>
-                          <ul class="pcoded-item pcoded-left-item">
-                              <li>
-                                  <a href="chart.html" class="waves-effect waves-dark">
-                                      <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Chart</span>
-                                      <span class="pcoded-mcaret"></span>
-                                  </a>
-                              </li>
-
-                          </ul>
+                          
         
                          
                   </nav>
@@ -428,11 +418,13 @@
             clientX: touch.clientX,
             clientY: touch.clientY
             });
+            disableScroll();
             canvas.dispatchEvent(me);
         }, false);
 
         canvas.addEventListener("touchend", function(e) {
             var me = new MouseEvent("mouseup", {});
+            enableScroll();
             canvas.dispatchEvent(me);
         }, false);
 
@@ -442,6 +434,14 @@
 
         canvas.onmousewheel = function(event){
             event.preventDefault();
+        }
+
+        function disableScroll(){
+            document.body.style.overflow = "hidden"
+        }
+
+        function enableScroll(){
+            document.body.style.overflow = ""
         }
 
         function getMousePos(canvasDom, mouseEvent) {
