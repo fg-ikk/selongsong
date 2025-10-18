@@ -255,7 +255,7 @@
 
                                 <!-- Button trigger modal -->
                                 
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalScanBarcode">
+                                <button type="button" onclick="openScanner()" class="btn btn-primary" data-toggle="modal" data-target="#modalScanBarcode">
                                 Scan Barcode
                                 </button>
 
@@ -265,7 +265,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalCenterTitle">Scan Barcode</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <button id="btnModalScanClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -274,7 +274,7 @@
                                                 <div id="qr-reader-results"></div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" onclick="closeScanner()" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
@@ -561,52 +561,36 @@
       let qrResult = document.getElementById("qr-reader-results");
       //console.log(txtTracking);
       //qr-reader-results
-      function docReady(fn) {
-          // see if DOM is already available
-          if (document.readyState === "complete"
-              || document.readyState === "interactive") {
-              // call on next available tick
-              setTimeout(fn, 1);
-          } else {
-              document.addEventListener("DOMContentLoaded", fn);
-          }
-      }
-  
-      docReady(function () {
-          var resultContainer = document.getElementById('qr-reader-results');
-          var lastResult, countResults = 0;
-         
-          function onScanSuccess(decodedText, decodedResult) {
-              if (decodedText !== lastResult) {
-                  ++countResults;
-                  lastResult = decodedText;
-                  // Handle on success condition with the decoded message.
-                  console.log(`Scan result ${decodedText}`, decodedResult);
-                  txtNoIML.value = decodedText;
-                  document.getElementById("html5-qrcode-button-camera-stop").click();
-                  document.getElementById("btnGetIML").click();
-                  lastResult = 0;
-                  /*
-                  $("#sel_location").val("2"); // Select the option with a value of "1"
-                  $("#sel_location").trigger("change");
-                  */
-
-              }
-
-          }
-          var html5QrcodeScanner = new Html5QrcodeScanner(
-               "qr-reader", 
-               { fps: 10, qrbox: {width: 250, height: 250}, showTorchButtonIfSupported: true }, 
-               { facingMode: { exact: "environment"}},
-               {supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]},
-               { formatsToSupport: [ Html5QrcodeSupportedFormats.CODE_128 ] }
-         );
-          html5QrcodeScanner.render(onScanSuccess);
-      });
+      const html5QrCode = new Html5Qrcode("qr-reader");
+        function openScanner(){
+        // Opening the scanner
+        //html5QrCode.start({ facingMode: { exact: "environment"} }, config, qrCodeSuccessCallback);
+        html5QrCode.start(
+            { facingMode: "user" }, 
+            {
+                fps: 10
+            },
+            qrCodeMessage => {
+                // do something when code is read
+                console.log(qrCodeMessage);
+                alert(qrCodeMessage)
+            },
+            errorMessage => {
+                // parse error, ignore it.
+            })
+            .catch(err => {
+            // Opening the scanner failed.
+            });
+        }
+        function closeScanner(){
+            html5QrCode.stop().then(ignore => {
+            }).catch(err => {
+            });
+        }
 
       setTimeout(function() {
         console.log('Executed after 2 seconds');
-        document.getElementById("html5-qrcode-button-camera-stop").click();
+        
         }, 2000);
 
       function myClock() {         
