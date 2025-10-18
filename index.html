@@ -573,13 +573,17 @@
             qrCodeMessage => {
                 // do something when code is read
                 console.log(qrCodeMessage);
-                alert(qrCodeMessage)
+                txtNoIML.value = qrCodeMessage;
+                document.getElementById("btnModalScanClose").click();
+                document.getElementById("btnGetIML").click();
             },
             errorMessage => {
                 // parse error, ignore it.
+                console.log(errorMessage);
             })
             .catch(err => {
             // Opening the scanner failed.
+                console.log(err);
             });
         }
         function closeScanner(){
