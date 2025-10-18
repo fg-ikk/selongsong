@@ -568,7 +568,7 @@
         html5QrCode.start(
             { facingMode: "environment" }, 
             {
-                fps: 10
+                fps: 10, qrbox: {width: 240, height: 120}
             },
             qrCodeMessage => {
                 // do something when code is read
