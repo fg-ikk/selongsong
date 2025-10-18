@@ -17,7 +17,7 @@
       <meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
       <meta name="author" content="codedthemes" />
       <!-- Favicon icon -->
-      <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+      <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
     <!-- waves.css -->
@@ -114,7 +114,7 @@
                           </div>
                       </div>
                       <a href="index.html">
-                          <img class="img-fluid" src="assets/images/logo" alt="Theme-Logo" />
+                          <img class="img-fluid" src="assets/images/app-logo.png" alt="APP Logo" />
                       </a>
                       <a class="mobile-options waves-effect waves-light">
                           <i class="ti-more"></i>
@@ -129,8 +129,8 @@
                           </li>
                           <li class="user-profile header-notification">
                               <a href="#!" class="waves-effect waves-light">
-                                  <img src="assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                  <span>John Doe</span>
+                                  <img src="assets/images/avatar-blank.jpg" class="img-radius" alt="User-Profile-Image">
+                                  <span>User</span>
                                   <i class="ti-angle-down"></i>
                               </a>
                               <ul class="show-notification profile-notification">
@@ -234,7 +234,7 @@
             <form x-data="getIML()" @submit.prevent="">
             <div class="card">
                 <div class="card-header">
-                    <h5>Form Inputs Data Selongsong</h5>
+                    <h5>Form Input Data Selongsong</h5>
                     
                 </div>
                 <div class="card-block">
@@ -287,7 +287,7 @@
                             <div class="col-sm-4">
                                 <input id="txtNoDN" type="text" x-model="dataForm.noDN" class="form-control">
                             </div>
-                            <label class="col-sm-2 col-form-label">No Polisi</label>
+                            <label class="col-sm-2 col-form-label">Nopol</label>
                             <div class="col-sm-4">
                                 <input id="txtNopol" type="text" x-model="dataForm.nopol" class="form-control">
                             </div>
@@ -314,11 +314,11 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Tgl Delivery</label>
                             <div class="col-sm-4">
-                                <input type="date" class="form-control">
+                                <input type="date" id="txt_tglDelivery" class="form-control">
                             </div>
                             <label class="col-sm-2 col-form-label">Qty (pcs)</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control">
+                                <input type="text" x-model="dataForm.qty" class="form-control">
                             </div>
                         </div>
 
@@ -369,7 +369,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Simpan</button>
+                            <button type="button" @click="submitForm()" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Simpan</button>
                         </div>
                 </div>
             </div>
@@ -397,7 +397,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 
     <script type="text/javascript" src="assets/js/firestore.js "></script>
-    <script type="text/javascript" src="assets/js/main.js "></script>
+    <script type="text/javascript" src="assets/js/backend.js "></script>
     <script>
         
         (function() {
@@ -592,10 +592,6 @@
             });
         }
 
-      setTimeout(function() {
-        console.log('Executed after 2 seconds');
-        
-        }, 2000);
 
       function myClock() {         
       setTimeout(function() {   
@@ -607,104 +603,160 @@
       }
       //myClock();
       
-      document.getElementById("html5-qrcode-button-camera-stop").click();
-      
   </script>
   <script>
-            function getIML() {
-                     return {
-                        dataForm: {
-                           noIML: "",
-                           noDN: "",
-                           nopol: "",
-                           namaSupir: "",
-                           ekspedisi: "",
-                           customer: "",
-                           qty: "",
-                           tglDelivery:"",
-                           tes: "tes"
-                        },
-                        buttonText: "Transfer",
-                        buttonScanText: "Scan Barcode",
-                        loading: false,
-                        showDetail: false,
-                        showNotification: false,
-                        textNotification: "",
-                        bgNotification: "",
-                        showTransferForm: true,
+    function getIML() {
+            return {
+                dataForm: {
+                    noIML: "",
+                    noDN: "",
+                    nopol: "",
+                    namaSupir: "",
+                    ekspedisi: "",
+                    customer: "",
+                    qty: 0,
+                    tglDelivery:"",
+                    tglIML:"",
+                    eSign: ""
+                },
+                buttonText: "Transfer",
+                buttonScanText: "Scan Barcode",
+                loading: false,
+                showDetail: false,
+                showNotification: false,
+                textNotification: "",
+                bgNotification: "",
+                showTransferForm: true,
 
-                        getByID() {
-                           let token="iIiuAfkr-x4nldCy5Vis_SBaOqDa-28lcYEDRk4_izhMgvmgcqGXRoXWTcUwIX4LKxrNjoB7Kg5VeDMRnDk9FoTkxRmez3SX2Wkakc6qDieKYIF0cKXP81ze_qfk_Q4MQ_0BLoNG_xTdyOBJs5YSwCSe_Yj5PJC2Yas5binLMq4W16MbyL2SBRRs2xRswjU99WKiAbihVDMYA37g5PRaGMvB-mKORTE8gHJMI0HVjxWoY-pB7lW4vIC-Dyzlw3FVnYMUNNnzgFiSimpBDbBzBpojZ8PeyW2sgZwpVhoFFxnbV56GCbbZ6TqapoSRnZm8_m8kiz3aT5xmVSripkWSf04OvZ_kNzR0zz51rtPK65SR4DEj4pGw4MFhZ36p7yo9yWiYRXIPau_D5JIICrnJ4w"
-                           let imlValue = document.getElementById("txtNoIML").value
-                           //const FORM_ENDPOINT = devAPIServer + `/api/getDataIMLSelongsong?NoIML=${document.getElementById("txtNoIML").value}`;
-                           const FORM_ENDPOINT = "https://apipd.app.co.id:443/MLS%20Service" + `/api/getDataIMLSelongsong?NoIML=` + imlValue;
-                           this.buttonICText = "Loading...";
-                           this.loading = true;
-                           fetch(FORM_ENDPOINT, {
-                           method: "GET",
-                           headers: {
-                              'Authorization': `Bearer ${token}`,
-                              "Content-Type": "application/json",
-                           },
-                           //body: JSON.stringify(this.data),
-                           })
-                           .then(response => {
-                              console.log(response.status); // Logs the numerical status code (e.g., 200, 404, 500)
-                              if (response.status === 401) {
-                                 // Handles non-2xx status codes (e.g., 404 Not Found, 500 Internal Server Error)
-                                 //throw new Error(`HTTP error! Status: ${response.status}`);
-                                 //localStorage.removeItem('token');
-                                 //localStorage.removeItem('isLogIn');
-                                 
-                                 //window.location.href = "index.html";
-                              }
-                              return response.json(); // Or .text(), .blob(), etc., depending on content type)
-                              })
-                           .then(data => {
-                              console.log(data);
-                              
-                                console.log(this.dataForm.tes)
-                                fillDataForm = (data) =>
-                                {
-                                    
-                                    this.dataForm.noDN = data.NoDN;
-                                    this.dataForm.noIML = data.NoIML;
-                                    this.dataForm.nopol = data.Nopol;
-                                    this.dataForm.namaSupir = data.NamaSupir;
-                                    this.dataForm.ekspedisi = data.Ekspedisi;
-                                    this.dataForm.customer = data.Customer;
-                                    
-                                    //console.log(data)
-                                    console.log(this.dataForm.tes)
-                                }
+                getByID() {
+                    let token="iIiuAfkr-x4nldCy5Vis_SBaOqDa-28lcYEDRk4_izhMgvmgcqGXRoXWTcUwIX4LKxrNjoB7Kg5VeDMRnDk9FoTkxRmez3SX2Wkakc6qDieKYIF0cKXP81ze_qfk_Q4MQ_0BLoNG_xTdyOBJs5YSwCSe_Yj5PJC2Yas5binLMq4W16MbyL2SBRRs2xRswjU99WKiAbihVDMYA37g5PRaGMvB-mKORTE8gHJMI0HVjxWoY-pB7lW4vIC-Dyzlw3FVnYMUNNnzgFiSimpBDbBzBpojZ8PeyW2sgZwpVhoFFxnbV56GCbbZ6TqapoSRnZm8_m8kiz3aT5xmVSripkWSf04OvZ_kNzR0zz51rtPK65SR4DEj4pGw4MFhZ36p7yo9yWiYRXIPau_D5JIICrnJ4w"
+                    let imlValue = document.getElementById("txtNoIML").value
+                    //const FORM_ENDPOINT = devAPIServer + `/api/getDataIMLSelongsong?NoIML=${document.getElementById("txtNoIML").value}`;
+                    const FORM_ENDPOINT = "https://apipd.app.co.id:443/MLS%20Service" + `/api/getDataIMLSelongsong?NoIML=` + imlValue;
+                    this.buttonICText = "Loading...";
+                    this.loading = true;
+                    fetch(FORM_ENDPOINT, {
+                    method: "GET",
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    //body: JSON.stringify(this.data),
+                    })
+                    .then(response => {
+                        console.log(response.status); // Logs the numerical status code (e.g., 200, 404, 500)
+                        if (response.status === 401) {
+                            // Handles non-2xx status codes (e.g., 404 Not Found, 500 Internal Server Error)
+                            //throw new Error(`HTTP error! Status: ${response.status}`);
+                            //localStorage.removeItem('token');
+                            //localStorage.removeItem('isLogIn');
+                            //window.location.href = "index.html";
+                        }
+                        return response.json(); // Or .text(), .blob(), etc., depending on content type)
+                        })
+                    .then(data => {
+                        console.log(data);
+                        fillDataForm = (data) =>
+                        {
+                            this.dataForm.noDN = data.NoDN;
+                            this.dataForm.noIML = data.NoIML;
+                            this.dataForm.nopol = data.Nopol;
+                            this.dataForm.namaSupir = data.NamaSupir;
+                            this.dataForm.ekspedisi = data.Ekspedisi;
+                            this.dataForm.customer = data.Customer;
+                            this.dataForm.tglIML = data.Tanggal;
+                        }
 
-                                data.data.forEach(element => fillDataForm(element));
-
-                                
-                              
-                                
-                                 this.showNotif("success","Success getting IC data");
-                                 
-                                 
-                              
-                              
-                              //this.showTransferForm = true;
-                           })
-                           .catch(error => {
-                           console.error('Error:', error);
-                           
-                           
-                           // Tangani error di sini
-                           })
-                           .finally(() => {
-                              this.loading = false;
-                              this.buttonScanText = 'Scan Barcode'
-                              
-                           });
-                        },
-                    }
-                }
+                        data.data.forEach(element => fillDataForm(element));
+                        //this.showNotif("success","Success getting IC data");
+                        //this.showTransferForm = true;
+                    })
+                    .catch(error => {
+                    console.error('Error:', error);
                     
+                    
+                    // Tangani error di sini
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                        this.buttonScanText = 'Scan Barcode'
+                        
+                    });
+                },
+                submitForm() {
+
+                    //Timestamp.fromDate(publishDate)
+                    let formattedTanggal = new Date(document.getElementById("txt_tglDelivery").value)
+                    let formattedTanggalIML = new Date(this.dataForm.tglIML)
+                    imlInputData = {
+                                    NoIML: this.dataForm.noIML,
+                                    Tanggal: firebase.firestore.Timestamp.fromDate(formattedTanggal),
+                                    Nopol: this.dataForm.nopol,
+                                    NamaSupir: this.dataForm.namaSupir,
+                                    Ekspedisi: this.dataForm.ekspedisi,
+                                    Customer: this.dataForm.customer,
+                                    NoDN: this.dataForm.noDN,
+                                    Qty : this.dataForm.qty,
+                                    TanggalIML: firebase.firestore.Timestamp.fromDate(formattedTanggalIML) ,
+                                    eSign: document.getElementById("sig-dataUrl").value,
+                                    createdAt: firebase.firestore.Timestamp.now()
+                           }
+                        let selong = new Selongsong()
+                        selong.add(imlInputData);
+                }
+            }
+        }
+                    
+  </script>
+  <script>
+    document.addEventListener('alpine:init', () => {
+            Alpine.store('globVar', {
+                  isLoading: false,
+                  isShow: false,
+                  toggleIsShow(){
+                     this.isShow = !this.isShow
+                  }
+            });
+         });
+    //x-show="$store.globVar.isLoading"
+
+    /*
+    let selong = new Selongsong()
+    selong.add(JSON.parse(`{
+        "NoIML": 44014361,
+        "Tanggal": "2025-10-14",
+        "Nopol": "B9324UFZ",
+        "NamaSupir": "ASMANTO TRWB",
+        "Ekspedisi": "PT.TRANSPORTASI NUSANTARA JAYA",
+        "Customer": "PT. KONVERTA MITRA ABADI",
+        "NoDN": "3331561271,3331561309",
+        "Qty" : 1
+    }`))
+    */
+   /*
+   selong.getWhere(JSON.parse(
+            `[{
+            "key": "NoIML",
+            "criteria": "==", 
+            "value": 44014361
+        }]`)
+    );
+    */
+   //selong.get("zsUcVPr6k8WYNTS1pUqw");
+   /*
+   selong.update("zsUcVPr6k8WYNTS1pUqw",JSON.parse(`{
+        "NoIML": 44014361,
+        "Tanggal": "2025-10-14",
+        "Nopol": "B9324UFZ",
+        "NamaSupir": "ASMANTO TRWB",
+        "Ekspedisi": "PT.TRANSPORTASI NUSANTARA JAYA",
+        "Customer": "PT. KONVERTA MITRA ABADI",
+        "NoDN": "3331561271,3331561309",
+        "Qty" : 1
+    }`))
+    */
+   //selong.get("zsUcVPr6k8WYNTS1pUqw");
+   //selong.getAll();
   </script>
 </body>
 
