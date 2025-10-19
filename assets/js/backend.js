@@ -7,12 +7,19 @@ class Selongsong {
 
     async add(arraySelongsong) {
         let detailSelongsong = {};
+        let messages = ""
         try {
             const docRef = await this.collection.add(arraySelongsong);
-            console.log('Selongsong Added with ID: ', docRef.id);
+            messages = 'Selongsong Added with ID: ' + docRef.id;
+            console.log(messages);
             detailSelongsong.id = docRef.id;
+            detailSelongsong.success = true;
+            detailSelongsong.messages = messages;
         } catch (error) {
-            console.error('Error Adding Selongsong: ', error)
+            messages = 'Error Adding Selongsong: ' + error
+            console.error(error)
+            detailSelongsong.success = false
+            detailSelongsong.messages = error
         }
         return detailSelongsong;
     }
@@ -106,3 +113,4 @@ class Selongsong {
     }
 
 }
+

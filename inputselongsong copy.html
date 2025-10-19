@@ -39,7 +39,6 @@
   </head>
 
   <body>
-    
   <!-- Pre-loader start -->
   <div class="theme-loader">
       <div class="loader-track">
@@ -227,6 +226,7 @@
                 </div>
                 <div class="card-block">
                     <h4 class="sub-title">Form Penggunaan Selongsong</h4>
+                            
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">No IML</label>
                             <div class="col-sm-4">
@@ -235,7 +235,7 @@
                             
                             <div class="col-sm-2">
                                 <button id="btnGetIML" @click="getByID()" type="button" class="btn btn-primary" data-toggle="modal">
-                                Cek IML
+                                Check IML
                                 </button>
                             </div>
                             <div class="col-sm-3">
@@ -353,7 +353,7 @@
                                     </div>
                                 
                             </div>
-                  
+                        </div>
 
                         <div class="col-md-3">
                             <button type="button" @click="submitForm()" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
@@ -368,52 +368,26 @@
     </div>
 </div>
 
- 
-<div x-data="" x-show="$store.globVar.isToast"> 
-    <div :class="$store.globVar.toastClass" class="alert alert-dismissible fade show" style="position: absolute; top: 0; right: 0; z-index:999999 !important;">
-        <span x-text="Alpine.store('globVar').messages"></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-</div>                                     
-  
-<script>
-
-
-
-</script>
-
-
 
 <!-- Required Jquery -->
     <script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js "></script>
     <script type="text/javascript" src="assets/js/popper.js/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js "></script>
     <script type="text/javascript" src="assets/pages/widget/excanvas.js "></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.15.0/cdn.js"></script>
     <!-- menu js -->
     <script src="assets/js/pcoded.min.js"></script>
     <script src="assets/js/vertical-layout.min.js "></script>
-    <!-- waves js -->
-    <script src="assets/pages/waves/js/waves.min.js"></script>
-    <!-- jquery slimscroll js -->
-    <script type="text/javascript" src="assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
-    <!-- slimscroll js -->
-    <script type="text/javascript" src="assets/js/SmoothScroll.js"></script>
-    <script src="assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
     
     <script type="text/javascript" src="assets/js/script.js "></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js "></script>
 
     <script type="text/javascript" src="assets/js/firestore.js "></script>
     <script type="text/javascript" src="assets/js/backend.js "></script>
-    
     <script>
         
         (function() {
@@ -645,21 +619,6 @@
                 textNotification: "",
                 bgNotification: "",
                 showTransferForm: true,
-                clearESign(){
-                    document.getElementById("sig-clearBtn").click()
-                },
-                clearForm(){
-                    this.clearESign()
-                    this.dataForm.noDN = ""
-                    this.dataForm.noIML = "";
-                    this.dataForm.nopol = "";
-                    this.dataForm.namaSupir = "";
-                    this.dataForm.ekspedisi = "";
-                    this.dataForm.customer = "";
-                    this.dataForm.tglIML = "";
-                    this.dataForm.qty = 0;
-
-                },
 
                 getByID() {
                     let token="iIiuAfkr-x4nldCy5Vis_SBaOqDa-28lcYEDRk4_izhMgvmgcqGXRoXWTcUwIX4LKxrNjoB7Kg5VeDMRnDk9FoTkxRmez3SX2Wkakc6qDieKYIF0cKXP81ze_qfk_Q4MQ_0BLoNG_xTdyOBJs5YSwCSe_Yj5PJC2Yas5binLMq4W16MbyL2SBRRs2xRswjU99WKiAbihVDMYA37g5PRaGMvB-mKORTE8gHJMI0HVjxWoY-pB7lW4vIC-Dyzlw3FVnYMUNNnzgFiSimpBDbBzBpojZ8PeyW2sgZwpVhoFFxnbV56GCbbZ6TqapoSRnZm8_m8kiz3aT5xmVSripkWSf04OvZ_kNzR0zz51rtPK65SR4DEj4pGw4MFhZ36p7yo9yWiYRXIPau_D5JIICrnJ4w"
@@ -716,7 +675,7 @@
                         
                     });
                 },
-                async submitForm() {
+                submitForm() {
 
                     //Timestamp.fromDate(publishDate)
                     let formattedTanggal = new Date(document.getElementById("txt_tglDelivery").value)
@@ -737,20 +696,7 @@
                                     createdAt: firebase.firestore.Timestamp.now()
                            }
                         let selong = new Selongsong()
-                        let selong2 = {}
-                        try{
-                            selong2 = await selong.add(imlInputData);
-                            if(selong2.status) {
-                                this.clearForm()
-                                Alpine.store('globVar').toastOn(selong2.status,selong2.messages)
-                            } else {
-                                alert(selong2.messages)
-                            }
-                            console.log(selong2)
-                        } catch {
-                            alert(selong2.messages)
-                            console.log(selong2)
-                        }
+                        selong.add(imlInputData);
                 }
             }
         }
@@ -763,20 +709,6 @@
                   isShow: false,
                   toggleIsShow(){
                      this.isShow = !this.isShow
-                  },
-                  isToast: false,
-                  toastClass: "",
-                  messages: "",
-                  toastOn(status, messages){
-                    (status) ? this.toastClass = "alert-success" : this.toastClass = "alert-danger" 
-                    this.isToast = true
-                    this.messages = messages
-                    setTimeout(function(){
-                            Alpine.store('globVar').toastOff()
-                        }, 3000);
-                  },
-                  toastOff(){
-                    this.isToast = false
                   }
             });
          });
