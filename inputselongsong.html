@@ -793,13 +793,13 @@
                             selong2 = await selong.add(imlInputData);
                             if(selong2.success) {
                                 this.clearForm()
-                                Alpine.store('globVar').toastOn(selong2.success,selong2.messages)
+                                notify(selong2.messages, 'success');
                             } else {
-                                alert(selong2.messages)
+                                notify(selong2.messages, 'warning');
                             }
                             console.log(selong2)
                         } catch (error){
-                            alert(error)
+                            notify(selong2.messages, 'danger');
                             console.log(error)
                         }
                 }
