@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Mega Able bootstrap admin template by codedthemes </title>
+    <title>Finish Good IKK</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -170,21 +170,28 @@
                               <li>
                                   <a href="inputselongsong.html" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Input Data</span>
+                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Input Pemakaian</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                               </li>
                               <li>
                                   <a href="dataselongsong.html" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Data Selongsong</span>
+                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Data Pemakaian</span>
+                                      <span class="pcoded-mcaret"></span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="stockselongsong.html" class="waves-effect waves-dark">
+                                      <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Stock</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                               </li>
                               <li>
                                   <a href="incomingselongsong.html" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
-                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Incoming</span>
+                                      <span class="pcoded-mtext" data-i18n="nav.form-components.main">Penerimaan</span>
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                               </li>
@@ -592,6 +599,7 @@
 
         function clearCanvas() {
             canvas.width = canvas.width;
+            sigImage.classList.add("d-none");
         }
 
         // Set up the UI
@@ -790,9 +798,9 @@
                                 alert(selong2.messages)
                             }
                             console.log(selong2)
-                        } catch {
-                            alert(selong2.messages)
-                            console.log(selong2)
+                        } catch (error){
+                            alert(error)
+                            console.log(error)
                         }
                 }
             }
@@ -824,9 +832,27 @@
             });
          });
     //x-show="$store.globVar.isLoading"
-
+    
+    
+    
+    //let stock = new stockSelongsong()
+    //stock.plus(1,2)
+    //stock.minus(2,4)
     /*
-    let selong = new Selongsong()
+    actStock = async () =>{
+    try {
+        const data = await stock.getSelongsongStock();
+        return data
+    }
+    catch (err) {
+        console.log(err);
+    }
+    }
+    console.log(actStock())
+    */
+
+    //let selong = new Selongsong()
+    /*
     selong.add(JSON.parse(`{
         "NoIML": 44014361,
         "Tanggal": "2025-10-14",

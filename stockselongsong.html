@@ -222,7 +222,7 @@
                                                 <!-- Basic Form Inputs card start -->
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Data Pemakaian Selongsong</h5>
+                                                        <h5>Stock Selongsong</h5>
                                                         
                                                     </div>
                                                     <div class="card-block table-border-style">
@@ -234,29 +234,17 @@
                                                             <table class="table">
                                                                 <thead>
                                                                     <tr class="bg-primary">
-                                                                        <th>No</th>
-                                                                        <th>Tanggal</th>
-                                                                        <th>NO IML</th>
-                                                                        <th>No DN</th>
-                                                                        <th>Nopol</th>
-                                                                        <th>Nama Supir</th>
-                                                                        <th>Ekspedisi</th>
                                                                         <th>Qty (Pcs)</th>
+                                                                        <th>Qty (Kg)</th>
+                                                                        <th>Average per Pcs</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <template x-for="(selongsong,index) in dataSelongsong" >
                                                                         <tr>
-                                                                            <th scope="row" x-text="index+1"></th>
-                                                                            <td x-text="selongsong.document.fields.Tanggal.timestampValue"></td>
-                                                                            <td x-text="selongsong.document.fields.NoIML.integerValue"></td>
-                                                                            <td x-text="selongsong.document.fields.NoDN.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Nopol.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.NamaSupir.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Ekspedisi.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Qty.integerValue"></td>
+                                                                            <td x-text="dataSelongsong.fields.pcs.integerValue"></td>
+                                                                            <td x-text="dataSelongsong.fields.kg.doubleValue"></td>
+                                                                            <td x-text="dataSelongsong.fields.convertion.doubleValue"></td>
                                                                         </tr>
-                                                                    </template>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -362,49 +350,16 @@
     
     <script>
         function getSelongsong(){
-            return {
-                templateQueryFilter: {
-                    structuredQuery: {
-                        select: { 
-                            fields: [
-                                {
-                                "fieldPath": "NoIML"
-                                },{
-                                "fieldPath": "Tanggal"
-                                },{
-                                "fieldPath": "Nopol"
-                                },{
-                                "fieldPath": "NoDN"
-                                },{
-                                "fieldPath": "NamaSupir"
-                                },{
-                                "fieldPath": "Ekspedisi"
-                                },{
-                                "fieldPath": "Qty"
-                                }
-                            ]
-                        },
-                        from: [{
-                            "collectionId": "selongsong",
-                            "allDescendants": true
-                        }],
-                        "offset": 0,
-                        "limit": 150,
-                    }
-                }, 
-                queryFilter: {},           
+            return {       
                 dataSelongsong: [],
-                dateFrom: "",
-                dateTo: "",
                 getData(){
                     
-                    fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
-                    method: 'POST',
+                    fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents/livestock/selongsong`, {
+                    method: 'GET',
                     headers: { 
                             //'Authorization': `Bearer ${getToken()}`,
                             'Content-Type': 'application/json' 
-                    },
-                    body: JSON.stringify(this.templateQueryFilter)
+                    }
                 })
                 .then((res) => {
                     //console.log(res) 
