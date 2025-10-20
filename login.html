@@ -260,26 +260,32 @@
                console.log(response.status); // Logs the numerical status code (e.g., 200, 404, 500)
                if (!response.ok) {
                   // Handles non-2xx status codes (e.g., 404 Not Found, 500 Internal Server Error)
-                  this.showNotif("failed","Login Failed, try again");
+                  //this.showNotif("failed","Login Failed, try again");
+                  
+                notify("Login Failed, try again", 'danger');
                   throw new Error(`HTTP error! Status: ${response.status}`);
                }
                return response.json(); // Or .text(), .blob(), etc., depending on content type)
                })
             .then(data => {
-               this.showNotif("success","Login Successfull");
+               notify("Login Successfull", 'success');
+               //this.showNotif("success","Login Successfull");
                this.message = data.message; 
                console.log(data.token);
                if(data.token!=null){
                   localStorage.setItem('token', data.token.access_token); 
                   localStorage.setItem('isLogIn', true); 
+                  //window.location.href = "index.html"
+                  //this.getUserDetail(data.token.access_token);
+                  window.location.href = "index.html"
                   console.log(data.token.access_token);
-                  this.getUserDetail(data.token.access_token);
                }
             
             })
             .catch(error => {
             console.error('Error:', error);
-            this.showNotif("failed","Login Failed, try again");
+            notify("Login Failed, try again", 'danger');
+            //this.showNotif("failed","Login Failed, try again");
             // Tangani error di sini
             })
             .finally(() => {
@@ -313,14 +319,23 @@
             })
             .then((res) => {
                console.log(res) // Parsed json response from the api
-               localStorage.setItem('userDetail', JSON.stringify(res)); 
-               window.location.href = "index.html";
                //getUser =  localStorage.getItem('userDetail');
                //getUserObject = JSON.parse(getUser());
             })
+            .then(data => {
+        
+               localStorage.setItem('userDetail', JSON.stringify(data)); 
+               //window.location.href = "index.html";
+                //getUser =  localStorage.getItem('userDetail');
+                //getUserObject = JSON.parse(getUser());
+                console.log(data);
+            
+            })
             .catch(error => {
             console.error('Error:', error);
-            this.showNotif("failed","Failed to get user details");
+            //this.showNotif("failed","Failed to get user details");
+            
+            notify("Failed to get user details", 'danger');
             // Tangani error di sini
             })
             .finally(() => {

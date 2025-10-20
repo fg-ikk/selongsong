@@ -742,24 +742,29 @@
                         })
                     .then(data => {
                         console.log(data);
-                        fillDataForm = (data) =>
-                        {
-                            this.dataForm.noDN = data.NoDN;
-                            this.dataForm.noIML = data.NoIML;
-                            this.dataForm.nopol = data.Nopol;
-                            this.dataForm.namaSupir = data.NamaSupir;
-                            this.dataForm.ekspedisi = data.Ekspedisi;
-                            this.dataForm.customer = data.Customer;
-                            this.dataForm.tglIML = data.Tanggal;
-                        }
+                        if(data.message == "Data Not Found"){
+                            notify(data.message, 'danger');
+                        } else {
+                            fillDataForm = (data) =>
+                            {
+                                this.dataForm.noDN = data.NoDN;
+                                this.dataForm.noIML = data.NoIML;
+                                this.dataForm.nopol = data.Nopol;
+                                this.dataForm.namaSupir = data.NamaSupir;
+                                this.dataForm.ekspedisi = data.Ekspedisi;
+                                this.dataForm.customer = data.Customer;
+                                this.dataForm.tglIML = data.Tanggal;
+                            }
 
-                        data.data.forEach(element => fillDataForm(element));
+                            data.data.forEach(element => fillDataForm(element));
+                        }
+                        
                         //this.showNotif("success","Success getting IC data");
                         //this.showTransferForm = true;
                     })
                     .catch(error => {
                     console.error('Error:', error);
-                    
+                    notify(error, 'danger');
                     
                     // Tangani error di sini
                     })
