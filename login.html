@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Finish Good IKK</title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Mega Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+    <meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
+    <meta name="author" content="codedthemes" />
+    <!-- Favicon icon -->
+    
+    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+    <!-- Google font-->     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap/css/bootstrap.min.css">
+    <!-- waves.css -->
+    <link rel="stylesheet" href="assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/icofont/css/icofont.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/font-awesome/css/font-awesome.min.css">
+    <!-- Notification.css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/notification/notification.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.css/css/animate.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.mCustomScrollbar.css">
+</head>
+
+  <body themebg-pattern="theme1">
+  <!-- Pre-loader start -->
+  <div class="theme-loader">
+      <div class="loader-track">
+          <div class="preloader-wrapper">
+              <div class="spinner-layer spinner-blue">
+                  <div class="circle-clipper left">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                      <div class="circle"></div>
+                  </div>
+              </div>
+              <div class="spinner-layer spinner-red">
+                  <div class="circle-clipper left">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                      <div class="circle"></div>
+                  </div>
+              </div>
+            
+              <div class="spinner-layer spinner-yellow">
+                  <div class="circle-clipper left">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                      <div class="circle"></div>
+                  </div>
+              </div>
+            
+              <div class="spinner-layer spinner-green">
+                  <div class="circle-clipper left">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                      <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                      <div class="circle"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Pre-loader end -->
+
+    <section class="login-block">
+        <!-- Container-fluid starts -->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Authentication card start -->
+                    
+                        <form class="md-float-material form-material" x-data="loginForm()" @submit.prevent="submitData">
+                            <div class="w-full h-full fixed top-0 left-0 bg-white opacity-60 z-50" x-show="loading"  x-transition.duration.300ms>
+                                <div class="flex justify-center items-center mt-[50vh]">
+                                    <div class="fas fa-circle-notch fa-spin fa-5x text-violet-600"></div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <img src="assets/images/app-logo.png" alt="logo.png">
+                            </div>
+                            <div class="auth-box card">
+                                <div class="card-block">
+                                    <div class="row m-b-20">
+                                        <div class="col-md-12">
+                                            <h3 class="text-center">Sign In</h3>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-primary">
+                                        <input type="text" name="global_id" class="form-control" required="" x-model="formData.username" >
+                                        <span class="form-bar"></span>
+                                        <label class="float-label">Global ID</label>
+                                    </div>
+                                    <div class="form-group form-primary">
+                                        <input type="password" name="password" x-model="formData.password" class="form-control" required="">
+                                        <span class="form-bar"></span>
+                                        <label class="float-label">Password</label>
+                                    </div>
+                                    <div class="row m-t-30">
+                                        <div class="col-md-12">
+                                            <button type="button" 
+                                            class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20"
+                                            x-text="buttonLabel" :disabled="loading">Sign in</button>
+                                        </div>
+                                        <p x-text="message"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- end of form -->
+                </div>
+                <!-- end of col-sm-12 -->
+            </div>
+            <!-- end of row -->
+        </div>
+        <!-- end of container-fluid -->
+    </section>
+
+<!-- Warning Section Starts -->
+<!-- Older IE warning message -->
+<!--[if lt IE 10]>
+<div class="ie-warning">
+    <h1>Warning!!</h1>
+    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+    <div class="iew-container">
+        <ul class="iew-download">
+            <li>
+                <a href="http://www.google.com/chrome/">
+                    <img src="assets/images/browser/chrome.png" alt="Chrome">
+                    <div>Chrome</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                    <img src="assets/images/browser/firefox.png" alt="Firefox">
+                    <div>Firefox</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.opera.com">
+                    <img src="assets/images/browser/opera.png" alt="Opera">
+                    <div>Opera</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.apple.com/safari/">
+                    <img src="assets/images/browser/safari.png" alt="Safari">
+                    <div>Safari</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                    <img src="assets/images/browser/ie.png" alt="">
+                    <div>IE (9 & above)</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>Sorry for the inconvenience!</p>
+</div>
+<![endif]-->
+<!-- Warning Section Ends -->
+<!-- Required Jquery -->
+    <script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>     <script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js "></script>     <script type="text/javascript" src="assets/js/popper.js/popper.min.js"></script>     <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js "></script>
+<!-- waves js -->
+<script src="assets/pages/waves/js/waves.min.js"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
+<!-- modernizr js -->
+    <script type="text/javascript" src="assets/js/SmoothScroll.js"></script>     <script src="assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
+<!-- notification js -->
+<script type="text/javascript" src="assets/js/bootstrap-growl.min.js"></script>
+<script type="text/javascript" src="assets/pages/notification/notification.js"></script>
+<script src="assets/js/pcoded.min.js"></script>
+<script src="assets/js/vertical-layout.min.js "></script>
+<script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="assets/js/script.js"></script>
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.15.0/cdn.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js "></script>
+
+    <script type="text/javascript" src="assets/js/firestore.js "></script>
+    <script type="text/javascript" src="assets/js/backend.js "></script>
+    <script type="text/javascript" src="assets/js/functionIKK.js "></script>
+
+    
+<script>
+   //getToken =  localStorage.getItem('token');
+   if(getToken()!=null){
+      window.location.href = "login.html";
+   }
+
+
+   function loginForm() {
+      return {
+        formData: {
+            username: "",
+            password: "",
+            idMill: "IKKD",
+            moduleID: "M0001",
+            imeiNo: ""
+            },
+         loading: false,
+         buttonLabel: 'Login',
+         message : "",
+         showNotification: false,
+         textNotification: "",
+         bgNotification: "",
+
+         submitData() {
+            this.buttonLabel = 'Logging in...'
+            this.loading = true;
+            this.message = ''
+            
+            fetch(devAPIServer + '/api/login', {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify(this.formData)
+            })
+            .then(response => {
+               console.log(response.status); // Logs the numerical status code (e.g., 200, 404, 500)
+               if (!response.ok) {
+                  // Handles non-2xx status codes (e.g., 404 Not Found, 500 Internal Server Error)
+                  this.showNotif("failed","Login Failed, try again");
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+               }
+               return response.json(); // Or .text(), .blob(), etc., depending on content type)
+               })
+            .then(data => {
+               this.showNotif("success","Login Successfull");
+               this.message = data.message; 
+               console.log(data.token);
+               if(data.token!=null){
+                  localStorage.setItem('token', data.token.access_token); 
+                  localStorage.setItem('isLogIn', true); 
+                  console.log(data.token.access_token);
+                  this.getUserDetail(data.token.access_token);
+               }
+            
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            this.showNotif("failed","Login Failed, try again");
+            // Tangani error di sini
+            })
+            .finally(() => {
+               this.loading = false;
+               this.buttonLabel = 'Log In'
+            });
+         },
+      
+         showNotif(status,text){
+            if(status == "success"){
+               this.bgNotification ="bg-green-500"
+            } else {
+               this.bgNotification = "bg-red-500"
+            }
+            this.textNotification = text;
+            this.showNotification = true;
+            setTimeout(() => this.showNotification = false, 3000);
+         },
+         
+         getUserDetail(token)
+         {
+            
+            this.loading = true;
+            fetchPlus(devAPIServer + '/api/tokenVerification', {
+               method: 'GET',
+               headers: { 
+                     'Authorization': `Bearer ${token}`,
+                     'Content-Type': 'application/json' 
+               }
+            },5)
+            .then((res) => {
+               console.log(res) // Parsed json response from the api
+               localStorage.setItem('userDetail', JSON.stringify(res)); 
+               window.location.href = "index.html";
+               //getUser =  localStorage.getItem('userDetail');
+               //getUserObject = JSON.parse(getUser());
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            this.showNotif("failed","Failed to get user details");
+            // Tangani error di sini
+            })
+            .finally(() => {
+               this.loading = false;
+            });
+         }
+          
+      }
+    }   
+   </script>
+</body>
+
+</html>
