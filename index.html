@@ -132,12 +132,12 @@
                           <li class="user-profile header-notification">
                               <a href="#!" class="waves-effect waves-light">
                                   <img src="assets/images/avatar-blank.jpg" class="img-radius" alt="User-Profile-Image">
-                                  <span>User</span>
+                                  <span x-data x-text="getUserObject().data.FullName">User</span>
                                   <i class="ti-angle-down"></i>
                               </a>
                               <ul class="show-notification profile-notification">
                                   <li class="waves-effect waves-light">
-                                      <a href="auth-normal-sign-in.html">
+                                      <a href="logout.html">
                                           <i class="ti-layout-sidebar-left"></i> Logout
                                       </a>
                                   </li>
@@ -328,6 +328,8 @@
 
     <script type="text/javascript" src="assets/js/firestore.js "></script>
     <script type="text/javascript" src="assets/js/backend.js "></script>
+    <script type="text/javascript" src="assets/js/functionIKK.js "></script>
+    <script type="text/javascript" src="assets/js/auth.js "></script>
 
     
 </body>

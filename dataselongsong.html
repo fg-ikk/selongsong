@@ -132,12 +132,12 @@
                           <li class="user-profile header-notification">
                               <a href="#!" class="waves-effect waves-light">
                                   <img src="assets/images/avatar-blank.jpg" class="img-radius" alt="User-Profile-Image">
-                                  <span>User</span>
+                                  <span x-data x-text="getUserObject().data.FullName">User</span>
                                   <i class="ti-angle-down"></i>
                               </a>
                               <ul class="show-notification profile-notification">
                                   <li class="waves-effect waves-light">
-                                      <a href="auth-normal-sign-in.html">
+                                      <a href="logout.html">
                                           <i class="ti-layout-sidebar-left"></i> Logout
                                       </a>
                                   </li>
@@ -231,7 +231,7 @@
                                                             x-data="getSelongsong()"
                                                             x-init="getData"
                                                             >
-                                                            <table class="table">
+                                                            <table class="table table-hover">
                                                                 <thead>
                                                                     <tr class="bg-primary">
                                                                         <th>No</th>
@@ -242,19 +242,23 @@
                                                                         <th>Nama Supir</th>
                                                                         <th>Ekspedisi</th>
                                                                         <th>Qty (Pcs)</th>
+                                                                        <th>Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <template x-for="(selongsong,index) in dataSelongsong" >
                                                                         <tr>
                                                                             <th scope="row" x-text="index+1"></th>
-                                                                            <td x-text="selongsong.document.fields.Tanggal.timestampValue"></td>
+                                                                            <td x-text="indoDate(selongsong.document.fields.Tanggal.timestampValue)"></td>
                                                                             <td x-text="selongsong.document.fields.NoIML.integerValue"></td>
                                                                             <td x-text="selongsong.document.fields.NoDN.stringValue"></td>
                                                                             <td x-text="selongsong.document.fields.Nopol.stringValue"></td>
                                                                             <td x-text="selongsong.document.fields.NamaSupir.stringValue"></td>
                                                                             <td x-text="selongsong.document.fields.Ekspedisi.stringValue"></td>
                                                                             <td x-text="selongsong.document.fields.Qty.integerValue"></td>
+                                                                            <td>
+                                                                            <a target="_blank" class="btn waves-effect waves-light btn-icon" x-bind:href="'assets/pages/form/cetakformselongsong.html?id='+selongsong.document.name.split('/').pop()"><i class="icofont icofont-print"></i></a>
+                                                                            </td>
                                                                         </tr>
                                                                     </template>
                                                                 </tbody>
@@ -359,6 +363,8 @@
 
     <script type="text/javascript" src="assets/js/firestore.js "></script>
     <script type="text/javascript" src="assets/js/backend.js "></script>
+    <script type="text/javascript" src="assets/js/functionIKK.js "></script>
+    <script type="text/javascript" src="assets/js/auth.js "></script>
     
     <script>
         function getSelongsong(){
@@ -388,8 +394,16 @@
                             "collectionId": "selongsong",
                             "allDescendants": true
                         }],
+                        "orderBy": [
+                            {
+                            "field": {
+                                    "fieldPath": "Tanggal"
+                                },
+                                "direction": "DESCENDING"
+                            }
+                        ],
                         "offset": 0,
-                        "limit": 150,
+                        "limit": 500,
                     }
                 }, 
                 queryFilter: {},           

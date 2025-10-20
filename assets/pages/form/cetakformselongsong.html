@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Serah Terima</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"
+      integrity="sha512-MpDFIChbcXl2QgipQrt1VcPHMldRILetapBl5MPCA9Y8r7qvlwx1/Mc9hNTzY+kS5kX6PdoDq41ws1HiVNLdZA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+</head>
+<body>
+    <div id="content">
+        <h2 align="center">Form Serah Terima</h2>
+        <p align="center">Surat Tanda Terima Barang<br />
+        Nomor : <span id="nomor"></span></p>
+<br />
+        <p>Saya yang bertanda tangan dibawah ini :</p>
+      
+        <ul>
+            <li>
+                Nama : <span id="nama"></span>
+            </li>
+            <li>
+                Nopol : <span id="nopol"></span>
+            </li>
+            <li>
+                No IML : <span id="iml"></span>
+            </li>
+            <li>
+                Ekspedisi : <span id="ekspedisi"></span> 
+            </li>
+        </ul>
+       
+        <p>
+            Menyatakan telah menerima selongsong sebanyak <span id="qty"></span> Pcs
+     <br />
+            Untuk pengiriman tujuan <span id="customer"></span>
+        </p>
+        <br />
+        <p>Karawang, <span id="tanggal">Tanggal</span></p>
+        <p>Penerima</p>
+        
+        <img src="" id="ttd" width="200" height="100"/>
+        
+        <p id="namattd">Nama Driver</p>
+        
+        
+    </div>
+
+
+<script>
+    // Arrow function to get the parameter
+    // of the specified key
+    getParameter = (key) => {
+
+        // Address of the current window
+        address = window.location.search
+
+        // Returns a URLSearchParams object instance
+        parameterList = new URLSearchParams(address)
+
+        // Returning the respected value associated
+        // with the provided key
+        return parameterList.get(key)
+    }
+
+    // Gets the value associated with the key "ie"
+    let getID = getParameter("id")
+    getData(getID)
+
+    async function getData(id) {
+    const url = "https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents/selongsong/"+id;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+        }
+        const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const result = await response.json();
+        let tanggal = new Date(result.fields.Tanggal.timestampValue)
+        const formattedDate = `${tanggal.getDate()}-${month[tanggal.getMonth()]}-${tanggal.getFullYear()}`
+        console.log(formattedDate);
+        document.getElementById("nomor").innerHTML = id
+        document.getElementById("nama").innerHTML = result.fields.NamaSupir.stringValue
+        document.getElementById("namattd").innerHTML = result.fields.NamaSupir.stringValue
+        document.getElementById("nopol").innerHTML = result.fields.Nopol.stringValue
+        document.getElementById("iml").innerHTML = result.fields.NoIML.integerValue
+        document.getElementById("ekspedisi").innerHTML = result.fields.Ekspedisi.stringValue
+        document.getElementById("customer").innerHTML = result.fields.Customer.stringValue
+        document.getElementById("qty").innerHTML = result.fields.Qty.integerValue
+        document.getElementById("ttd").src = result.fields.eSign.stringValue
+        document.getElementById("tanggal").innerHTML = formattedDate
+
+        const element = document.querySelector('#content');
+        const options = {
+        filename: document.getElementById("iml").innerText + ".pdf",
+        margin: 10,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        };
+        html2pdf().set(options).from(element).save();
+        setTimeout(() => window.close(), 2000);
+    } catch (error) {
+        console.error(error);
+    }
+    }
+</script>
+</body>
+</html>

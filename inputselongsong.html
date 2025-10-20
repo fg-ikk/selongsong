@@ -132,12 +132,12 @@
                           <li class="user-profile header-notification">
                               <a href="#!" class="waves-effect waves-light">
                                   <img src="assets/images/avatar-blank.jpg" class="img-radius" alt="User-Profile-Image">
-                                  <span>User</span>
+                                  <span x-data x-text="getUserObject().data.FullName">User</span>
                                   <i class="ti-angle-down"></i>
                               </a>
                               <ul class="show-notification profile-notification">
                                   <li class="waves-effect waves-light">
-                                      <a href="auth-normal-sign-in.html">
+                                      <a href="logout.html">
                                           <i class="ti-layout-sidebar-left"></i> Logout
                                       </a>
                                   </li>
@@ -235,8 +235,8 @@
                                                                 </div>
                                                                 
                                                                 <div class="col-sm-2">
-                                                                    <button id="btnGetIML" @click="getByID()" type="button" class="btn btn-primary" data-toggle="modal">
-                                                                    Cek IML
+                                                                    <button id="btnGetIML" @click="getByID()" type="button" class="btn waves-effect waves-light btn-primary">
+                                                                    <span class="icofont icofont-search"> Cek IML</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="col-sm-3">
@@ -244,7 +244,7 @@
                                                                     <!-- Button trigger modal -->
                                                                     
                                                                     <button type="button" onclick="openScanner()" class="btn btn-primary" data-toggle="modal" data-target="#modalScanBarcode">
-                                                                    Scan Barcode
+                                                                    <span class="icofont icofont-barcode"> Scan</span>
                                                                     </button>
 
                                                                     <!-- Modal -->
@@ -314,18 +314,18 @@
                                                                 <div class="col-sm-10 offset-sm-2">
 
                                                                 <!-- Button trigger modal -->
-                                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalESign">
-                                                                    E-Sign
+                                                                    <button type="button" class="btn waves-effect btn-primary" data-toggle="modal" data-target="#modalESign">
+                                                                    <span class="icofont icofont-pen-alt-1"> E-Signature</span>
                                                                     </button>
 
                                                                     <!-- Modal -->
-                                                                    <div class="modal fade" id="modalESign" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                                    <div class="modal fade" id="modalESign" tabindex="-1" role="dialog" >
                                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-header">
                                                                                     <h5 class="modal-title" id="exampleModalCenterTitle">Tanda Tangan</h5>
                                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                    <span>&times;</span>
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="modal-body">
@@ -463,6 +463,8 @@
 
     <script type="text/javascript" src="assets/js/firestore.js "></script>
     <script type="text/javascript" src="assets/js/backend.js "></script>
+    <script type="text/javascript" src="assets/js/functionIKK.js "></script>
+    <script type="text/javascript" src="assets/js/auth.js "></script>
     
     <script>
         
@@ -713,16 +715,16 @@
                 },
 
                 getByID() {
-                    let token="D03NT_LF5g2y8kJo6ATzKPdIOouHA55WIuc6ax8Ll-u-HdYICpnWgnkub8XIndQ_01JH9SEktK_sS9AfTv61aDmNnRcUxeiG_hgRfSvsM2RaWGfWHVyFUI-tlZyD_DQmNb8KnTlIlhOjKaZZbG2pLJ8zYagC-s1FpKgNLb4-wEFhkxfr1JaUXxiUynJ4WzkL8OtLyCIVDFRn7gjW1Gb6WUXe05azlRcx0hyp3-fFy3jY9Y5kVph4SQctVo8PrRZZHTwFmaOEZ0aIZBU4uixaw2f5Z7pLzihu7pzDxfGUCdagAKTQpC0jhrQqoLKBgfwfc5r_CEUMH4vvcmuN5Zqn52ztiSiZ6TCDAL8lJj52nGeIFpwWtB1aye44OYSaMlfJr6sGGd_hnOvTsAuNBdqxAA"
+                    //let token="D03NT_LF5g2y8kJo6ATzKPdIOouHA55WIuc6ax8Ll-u-HdYICpnWgnkub8XIndQ_01JH9SEktK_sS9AfTv61aDmNnRcUxeiG_hgRfSvsM2RaWGfWHVyFUI-tlZyD_DQmNb8KnTlIlhOjKaZZbG2pLJ8zYagC-s1FpKgNLb4-wEFhkxfr1JaUXxiUynJ4WzkL8OtLyCIVDFRn7gjW1Gb6WUXe05azlRcx0hyp3-fFy3jY9Y5kVph4SQctVo8PrRZZHTwFmaOEZ0aIZBU4uixaw2f5Z7pLzihu7pzDxfGUCdagAKTQpC0jhrQqoLKBgfwfc5r_CEUMH4vvcmuN5Zqn52ztiSiZ6TCDAL8lJj52nGeIFpwWtB1aye44OYSaMlfJr6sGGd_hnOvTsAuNBdqxAA"
                     let imlValue = document.getElementById("txtNoIML").value
                     //const FORM_ENDPOINT = devAPIServer + `/api/getDataIMLSelongsong?NoIML=${document.getElementById("txtNoIML").value}`;
-                    const FORM_ENDPOINT = "https://apipd.app.co.id:443/MLS%20Service" + `/api/getDataIMLSelongsong?NoIML=` + imlValue;
+                    const FORM_ENDPOINT = devAPIServer + `/api/getDataIMLSelongsong?NoIML=` + imlValue;
                     this.buttonICText = "Loading...";
                     this.loading = true;
                     fetch(FORM_ENDPOINT, {
                     method: "GET",
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                        'Authorization': `Bearer ${getToken()}`,
                         "Content-Type": "application/json",
                     },
                     //body: JSON.stringify(this.data),
@@ -781,7 +783,8 @@
                                     Customer: this.dataForm.customer,
                                     NoDN: this.dataForm.noDN,
                                     Qty : parseInt(this.dataForm.qty),
-                                    TanggalIML: firebase.firestore.Timestamp.fromDate(formattedTanggalIML) ,
+                                    TanggalIML: firebase.firestore.Timestamp.fromDate(formattedTanggalIML),
+                                    operatorWH: getUserObject().data.FullName,
                                     eSign: document.getElementById("sig-dataUrl").value,
                                     Posted: this.dataForm.posted,
                                     PostedDate: this.dataForm.postedDate,

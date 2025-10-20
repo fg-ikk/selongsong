@@ -246,6 +246,7 @@
          bgNotification: "",
 
          submitData() {
+            
             this.buttonLabel = 'Logging in...'
             this.loading = true;
             this.message = ''
@@ -285,6 +286,7 @@
                this.loading = false;
                this.buttonLabel = 'Log In'
             });
+            
          },
       
          showNotif(status,text){
@@ -302,13 +304,13 @@
          {
             
             this.loading = true;
-            fetchPlus(devAPIServer + '/api/tokenVerification', {
+            fetch(devAPIServer + '/api/tokenVerification', {
                method: 'GET',
                headers: { 
                      'Authorization': `Bearer ${token}`,
                      'Content-Type': 'application/json' 
                }
-            },5)
+            })
             .then((res) => {
                console.log(res) // Parsed json response from the api
                localStorage.setItem('userDetail', JSON.stringify(res)); 
