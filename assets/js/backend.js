@@ -26,15 +26,29 @@ class Selongsong {
                 const docRef = await this.collection.add(arraySelongsong);
                 stock.minus(arraySelongsong.Qty,arraySelongsong.Qty*actStock.convertion)
                 messages = 'Selongsong Added with ID: ' + docRef.id;
-                console.log(messages);
+                //console.log(messages);
                 detailSelongsong.id = docRef.id;
                 detailSelongsong.success = true;
                 detailSelongsong.messages = messages;
             } else {
+                /*
                 messages = 'Nomer IML ini sudah pernah diinput'
                 detailSelongsong.id = listSelongsong[0].id;
                 detailSelongsong.success = false;
                 detailSelongsong.messages = messages;
+                */
+                console.log(listSelongsong)
+                delete arraySelongsong.Posted;
+                delete arraySelongsong.postedHeaderId;
+                const docRef = await this.update(listSelongsong[0].id,arraySelongsong);
+                stock.plus(listSelongsong[0].Qty,listSelongsong[0].Qty*actStock.convertion) //tambahkan data lama
+                stock.minus(arraySelongsong.Qty,arraySelongsong.Qty*actStock.convertion) //kurangi dengan yang baru
+                messages = 'Selongsong Updated with ID: ' + docRef.id;
+                //console.log(messages);
+                detailSelongsong.id = docRef.id;
+                detailSelongsong.success = true;
+                detailSelongsong.messages = messages;
+                
             }
             
                 
@@ -185,7 +199,7 @@ class stockSelongsong{
             console.log(detailStock)
 
         } catch (error) {
-            console.error('Error Adding User: ', error)
+            console.error('Error plus stock: ', error)
         }
 
         return detailStock;
@@ -213,7 +227,7 @@ class stockSelongsong{
             console.log(detailStock)
 
         } catch (error) {
-            console.error('Error Adding User: ', error)
+            console.error('Error minus stock: ', error)
         }
 
         return detailStock;

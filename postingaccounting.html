@@ -150,10 +150,6 @@
     
         <div class="pcoded-main-container">
             <div class="pcoded-wrapper">
-                
-
-                    <!-- Start Sidebar -->
-
                 <nav class="pcoded-navbar">
                         <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
                         <div class="pcoded-inner-navbar main-menu">
@@ -200,7 +196,7 @@
                                   </a>
                               </li>
                                <li>
-                                  <a href="postingaccounting.html" class="waves-effect waves-dark">
+                                  <a href=".php" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                                       <span class="pcoded-mtext" data-i18n="nav.form-components.main">Posting Accounting</span>
                                       <span class="pcoded-mcaret"></span>
@@ -211,10 +207,6 @@
                         </div>
                         </div>
                   </nav>
-
-                    <!-- End Sidebar -->
-
-
                 <div class="pcoded-content">
                     <!-- Page-header start -->
                     
@@ -224,24 +216,72 @@
                             <div class="page-wrapper">
                                 <!-- Page body start -->
                                 <div class="page-body button-page">
+                                    
                                     <div class="row">
-                                        <!-- bootstrap modal start -->
-                                        <div class="col-sm-12">
-                                            <!-- Notification card start -->
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5>Dashboard</h5>
-                                                </div>
-                                                <div class="card-block">
-                                                     
-                                                </div>
+                                            <div class="col-sm-12">
+                                                <!-- Basic Form Inputs card start -->
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Data Posting Accounting</h5>
+                                                        
+                                                    </div>
+                                                    <div class="card-block table-border-style">
+                                                        <div class="table-responsive" 
+                                                            x-cloak
+                                                            x-data="getSelongsong()"
+                                                            
+                                                            >
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4">
+                                                                    <select class="form-control" x-model="selPostedValue">
+                                                                        <template x-for="selection in selPosted" :key="selection.id">
+                                                                            <option
+                                                                                x-bind:value="selection.id"
+                                                                                x-text="selection.name" 
+                                                                            />
+                                                                        </template>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <button @click="getData()"  class="btn waves-effect waves-light btn-primary">Search</button>
+                                                                </div>
+                                                            </div>
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                    <tr class="bg-primary">
+                                                                        <th>No</th>
+                                                                        <th><input type="checkbox" class="form-check-label" id="selectAllCheckbox"></th>
+                                                                        <th>Tanggal</th>
+                                                                        <th>No DN</th>
+                                                                        <th>Nopol</th>
+                                                                        <th>Ekspedisi</th>
+                                                                        <th>Qty (Pcs)</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <template x-for="(selongsong,index) in dataSelongsong" >
+                                                                        <tr>
+                                                                            <th scope="row" x-text="index+1"></th>
+                                                                            <td><input type="checkbox" value="selongsong.document.name.split('/').pop()" class="form-check-label datacheck"> </td>
+                                                                            <td x-text="indoDate(selongsong.document.fields.Tanggal.timestampValue)"></td>
+                                                                            <td x-text="selongsong.document.fields.NoDN.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.Nopol.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.Ekspedisi.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.Qty.integerValue"></td>
+                                                                            <td>
+                                                                            <a target="_blank" class="btn waves-effect waves-light btn-icon" x-bind:href="'assets/pages/form/cetakformselongsong.html?id='+selongsong.document.name.split('/').pop()"><i class="icofont icofont-print"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </template>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- Notification card end -->
                                         </div>
-                                        <!-- Bootstrap modal end -->
-                                    </div>
-                                    
+                                </div>
                                 <!-- Page body end -->
                             </div>
                         </div>
@@ -255,8 +295,16 @@
             </div>
         </div>
     </div>
-</div>                                            
-        
+</div>
+<div x-data="" x-show="$store.globVar.isToast"> 
+    <div :class="$store.globVar.toastClass" class="alert alert-dismissible fade show" style="position: absolute; bottom: 0; right: 0; z-index:999999 !important;">
+        <span x-text="Alpine.store('globVar').messages"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>  
+
 
 <!-- Warning Section Starts -->
 <!-- Older IE warning message -->
@@ -320,7 +368,7 @@
 <script type="text/javascript" src="assets/js/script.js"></script>
 
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.15.0/cdn.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
@@ -330,7 +378,144 @@
     <script type="text/javascript" src="assets/js/backend.js "></script>
     <script type="text/javascript" src="assets/js/functionIKK.js "></script>
     <script type="text/javascript" src="assets/js/auth.js "></script>
+    
+    <script>
+        function getSelongsong(){
+            return {
+                templateQueryFilter: {
+                    structuredQuery: {
+                        select: { 
+                            fields: [
+                                {
+                                "fieldPath": "Tanggal"
+                                },{
+                                "fieldPath": "Nopol"
+                                },{
+                                "fieldPath": "NoDN"
+                                },{
+                                "fieldPath": "Ekspedisi"
+                                },{
+                                "fieldPath": "Qty"
+                                },{
+                                "fieldPath": "Posted"
+                                }
+                            ]
+                        },
+                        from: [{
+                            "collectionId": "selongsong",
+                            "allDescendants": true
+                        }],
+                        "where": {
+                            "fieldFilter": {
+                                "field": {
+                                    "fieldPath": "Posted"
+                                },
+                                "op": "EQUAL",
+                                "value": {
+                                    "booleanValue": false
+                                }
+                            }
+                        },
+                        "orderBy": [
+                            {
+                            "field": {
+                                    "fieldPath": "Tanggal"
+                                },
+                                "direction": "DESCENDING"
+                            }
+                        ],
+                        "offset": 0,
+                        "limit": 500,
+                    }
+                }, 
+                queryFilter: {},           
+                dataSelongsong: [],
+                dateFrom: "",
+                dateTo: "",
+                selPosted: [
+                    { id: 'true', name: 'Posted' },
+                    { id: 'false', name: 'Not Posted' }
+                ],
+                selPostedValue: "true",
+                getData(){
+                    console.log(this.templateQueryFilter)
+                    console.log(this.selPostedValue)
+                    fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
+                    method: 'POST',
+                    headers: { 
+                            //'Authorization': `Bearer ${getToken()}`,
+                            'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(this.templateQueryFilter)
+                })
+                .then((res) => {
+                    //console.log(res) 
+                    return res.json()
+                    
+                }) 
+                .then(data => {
+                    this.dataSelongsong = data
+                    console.log(data);
+                    //console.log(this.dataSelongsong);
+                })                    
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    
+                    // Tangani error di sini
+                })
+                .finally(() => {
+                    
+                });
+                }
+            }
 
+        }
+    </script>
+
+  <script>
+    const stringToBoolean = (stringValue) => {
+        /*
+        switch(stringValue?.toLowerCase()?.trim()){
+            case "true": 
+            case "yes": 
+            case "1": 
+            return true;
+
+            case "false": 
+            case "no": 
+            case "0": 
+            case null: 
+            case undefined:
+            return false;
+
+            default: 
+            return JSON.parse(stringValue);
+            
+            }    
+            */
+           
+        return stringValue == "true" ? true : false
+    }
+    document.addEventListener('alpine:init', () => {
+            Alpine.store('globVar', {
+                  isLoading: false,
+                  isShow: false,
+                  toggleIsShow(){
+                     this.isShow = !this.isShow
+                  }
+            });
+         });
+
+         
+  </script>
+
+  
+    <script>
+        $('#selectAllCheckbox').change(function () {
+            $('.datacheck').prop('checked', $(this).prop('checked'));
+        });
+    </script>
     
 </body>
 
