@@ -688,7 +688,7 @@
                     tglIML:"",
                     eSign: "",
                     posted: false,
-                    postedDate: "",
+                    postedHeaderId: 0,
                 },
                 buttonText: "Transfer",
                 buttonScanText: "Scan Barcode",
@@ -792,7 +792,7 @@
                                     operatorWH: getUserObject().data.FullName,
                                     eSign: document.getElementById("sig-dataUrl").value,
                                     Posted: this.dataForm.posted,
-                                    PostedDate: this.dataForm.postedDate,
+                                    PostedHeaderId: this.dataForm.postedHeaderId,
                                     createdAt: firebase.firestore.Timestamp.now()
                            }
                         let selong = new Selongsong()
