@@ -120,11 +120,11 @@ class Selongsong {
         try {
             const docRef = await this.collection.doc(id);
             docRef.update(arraySelongsong)
-            console.log('Selongsong pdated with ID: ', docRef.id);
+            console.log('Selongsong updated with ID: ', docRef.id);
             detailSelongsong.id = docRef.id;
 
         } catch (error) {
-            console.error('Error Adding User: ', error)
+            console.error('Error Update Selongsong: ', error)
         }
 
         return detailSelongsong;
@@ -135,7 +135,7 @@ class Selongsong {
             await this.collection.doc(id).delete();
             console.log('Selongsong is deleted with id: ', id);
         } catch (error) {
-            console.error('Error in deleting user: ', error);
+            console.error('Error in deleting selongsong: ', error);
         }
     }
 

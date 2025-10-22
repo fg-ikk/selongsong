@@ -790,10 +790,10 @@
                                     Qty : parseInt(this.dataForm.qty),
                                     TanggalIML: firebase.firestore.Timestamp.fromDate(formattedTanggalIML),
                                     operatorWH: getUserObject().data.FullName,
-                                    eSign: document.getElementById("sig-dataUrl").value,
                                     Posted: this.dataForm.posted,
                                     PostedHeaderId: this.dataForm.postedHeaderId,
-                                    createdAt: firebase.firestore.Timestamp.now()
+                                    createdAt: firebase.firestore.Timestamp.now(),                                    
+                                    eSign: document.getElementById("sig-dataUrl").value
                            }
                         let selong = new Selongsong()
                         let selong2 = {}
