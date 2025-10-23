@@ -18,7 +18,7 @@
     <meta name="author" content="codedthemes" />
     <!-- Favicon icon -->
     
-    <link rel="icon" href="assets/images/app-logo.png" type="image/x-icon">
+    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
     <!-- Google font-->     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
     <!-- Required Fremwork -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap/css/bootstrap.min.css">
@@ -734,9 +734,12 @@
                         if (response.status === 401) {
                             // Handles non-2xx status codes (e.g., 404 Not Found, 500 Internal Server Error)
                             //throw new Error(`HTTP error! Status: ${response.status}`);
-                            //localStorage.removeItem('token');
-                            //localStorage.removeItem('isLogIn');
-                            //window.location.href = "index.html";
+                            localStorage.removeItem('token');
+                            localStorage.removeItem('isLogIn');
+                            notify("Silahkan login ulang", 'danger');
+                            setTimeout(function(){
+                                window.location.href = "login.html";
+                            }, 3000);
                         }
                         return response.json(); // Or .text(), .blob(), etc., depending on content type)
                         })

@@ -412,7 +412,7 @@
                                 },
                                 "op": "EQUAL",
                                 "value": {
-                                    "booleanValue": false
+                                    "booleanValue": Alpine.store('globVar').selPostedValue
                                 }
                             }
                         },
@@ -439,7 +439,8 @@
                 selPostedValue: "true",
                 getData(){
                     console.log(this.templateQueryFilter)
-                    console.log(this.selPostedValue)
+                    this.templateQueryFilter.structuredQuery.where.fieldFilter.value.booleanValue = this.selPostedValue
+                    
                     fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
                     method: 'POST',
                     headers: { 
@@ -467,6 +468,7 @@
                 .finally(() => {
                     
                 });
+                
                 }
             }
 
@@ -493,14 +495,15 @@
             return JSON.parse(stringValue);
             
             }    
-            */
-           
+            
+           */
         return stringValue == "true" ? true : false
     }
     document.addEventListener('alpine:init', () => {
             Alpine.store('globVar', {
                   isLoading: false,
                   isShow: false,
+                  selPostedValue: "false",
                   toggleIsShow(){
                      this.isShow = !this.isShow
                   }
