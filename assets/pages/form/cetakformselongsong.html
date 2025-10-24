@@ -12,7 +12,10 @@
     ></script>
 </head>
 <body>
+
+        
     <div id="content">
+        <img src="../../images/logo-ikk.png" width="150" height="50" style="overflow: visible; width: 150;height: 50px;"></img>
         <h2 align="center">Form Serah Terima</h2>
         <p align="center">Surat Tanda Terima Barang<br />
         Nomor : <span id="nomor"></span></p>
@@ -30,6 +33,9 @@
                 No IML : <span id="iml"></span>
             </li>
             <li>
+                No DN : <span id="dn"></span>
+            </li>
+            <li>
                 Ekspedisi : <span id="ekspedisi"></span> 
             </li>
         </ul>
@@ -43,7 +49,7 @@
         <p>Karawang, <span id="tanggal">Tanggal</span></p>
         <p>Penerima</p>
         
-        <img src="" id="ttd" width="200" height="100"/>
+        <img src="" id="ttd" width="220" height="120"/>
         
         <p id="namattd">Nama Driver</p>
         
@@ -78,7 +84,7 @@
         if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
         }
-        const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const month = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
         const result = await response.json();
         let tanggal = new Date(result.fields.Tanggal.timestampValue)
         const formattedDate = `${tanggal.getDate()}-${month[tanggal.getMonth()]}-${tanggal.getFullYear()}`
@@ -88,6 +94,7 @@
         document.getElementById("namattd").innerHTML = result.fields.NamaSupir.stringValue
         document.getElementById("nopol").innerHTML = result.fields.Nopol.stringValue
         document.getElementById("iml").innerHTML = result.fields.NoIML.integerValue
+        document.getElementById("dn").innerHTML = result.fields.NoDN.stringValue
         document.getElementById("ekspedisi").innerHTML = result.fields.Ekspedisi.stringValue
         document.getElementById("customer").innerHTML = result.fields.Customer.stringValue
         document.getElementById("qty").innerHTML = result.fields.Qty.integerValue
