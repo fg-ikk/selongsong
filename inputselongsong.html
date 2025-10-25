@@ -41,6 +41,9 @@
 </head>
 
 <body>
+    <div class="container-loader" x-init x-show="$store.globVar.isLoading"  x-transition.duration.300ms>
+    <div class="custom-loader"></div>
+    </div>
 <!-- Pre-loader start -->
 <div class="theme-loader">
     <div class="loader-track">
@@ -719,8 +722,8 @@
                     let imlValue = document.getElementById("txtNoIML").value
                     //const FORM_ENDPOINT = devAPIServer + `/api/getDataIMLSelongsong?NoIML=${document.getElementById("txtNoIML").value}`;
                     const FORM_ENDPOINT = devAPIServer + `/api/getDataIMLSelongsong?NoIML=` + imlValue;
-                    this.buttonICText = "Loading...";
                     this.loading = true;
+                    Alpine.store('globVar').isLoading = true
                     fetch(FORM_ENDPOINT, {
                     method: "GET",
                     headers: {
@@ -773,7 +776,7 @@
                     })
                     .finally(() => {
                         this.loading = false;
-                        this.buttonScanText = 'Scan Barcode'
+                        Alpine.store('globVar').isLoading = false
                         
                     });
                 },
@@ -801,6 +804,8 @@
                         let selong = new Selongsong()
                         let selong2 = {}
                         try{
+                            
+                            Alpine.store('globVar').isLoading = true
                             selong2 = await selong.add(imlInputData);
                             if(selong2.success) {
                                 this.clearForm()
@@ -812,6 +817,8 @@
                         } catch (error){
                             notify(selong2.messages, 'danger');
                             console.log(error)
+                        } finally {
+                            Alpine.store('globVar').isLoading = false
                         }
                 }
             }

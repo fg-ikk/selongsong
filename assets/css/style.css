@@ -16458,3 +16458,48 @@ body.dark {
   bottom: 50px;
   opacity: 1;
 }
+.container-loader{
+            width: 100%;
+            height: 100%;
+            display: grid;
+            left: 0%;
+            top: 0%;
+            position: absolute;
+            z-index: 99999;
+            background-color: white;
+            opacity: 70%;
+        }
+        
+        .custom-loader {
+        width: 150px;
+        height: 150px;
+        display: grid;
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        z-index: 1;
+        }
+        .custom-loader::before,
+        .custom-loader::after {    
+            content:"";
+            grid-area: 1/1;
+            --c: radial-gradient(farthest-side,#766DF4 92%,#0000);
+            background: 
+            var(--c) 50%  0, 
+            var(--c) 50%  100%, 
+            var(--c) 100% 50%, 
+            var(--c) 0    50%;
+            background-size: 12px 12px;
+            background-repeat: no-repeat;
+            animation: s2 1s infinite;
+        }
+        .custom-loader::before {
+        margin:4px;
+        filter:hue-rotate(45deg);
+        background-size: 8px 8px;
+        animation-timing-function: linear
+        }
+
+        @keyframes s2{ 
+        100%{transform: rotate(.5turn)}
+        }

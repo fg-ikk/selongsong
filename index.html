@@ -38,9 +38,16 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.mCustomScrollbar.css">
+
 </head>
 
 <body>
+    
+    <div class="container-loader" x-init x-show="$store.globVar.isLoading"  x-transition.duration.300ms>
+    <div class="custom-loader"></div>
+    </div>
+
+
 <!-- Pre-loader start -->
 <div class="theme-loader">
     <div class="loader-track">
@@ -412,8 +419,18 @@
     <script type="text/javascript" src="assets/js/backend.js "></script>
     <script type="text/javascript" src="assets/js/functionIKK.js "></script>
     <script type="text/javascript" src="assets/js/auth.js "></script>
+    <script>
+         document.addEventListener('alpine:init', () => {
+            Alpine.store('globVar', {
+                  isLoading: false,
+                  isShow: false,
+                  toggleIsShow(){
+                     this.isShow = !this.isShow
+                  }
+            });
+         });
+    </script>
 
-    
 </body>
 
 </html>
