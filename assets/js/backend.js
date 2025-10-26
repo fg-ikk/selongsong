@@ -256,7 +256,8 @@ class IncomingSelongsong{
             
             if(Object.keys(listIncoming).length === 0){
                 const docRef = await this.IncomingCollection.add(arrayIncoming);
-                //stock.plus(arrayIncoming.qty,arrayIncoming.qtyKg)
+                //stock.plus(arrayIncoming.Qty,arrayIncoming.QtyKg)
+                console.log("akan ditambahkan stok")
                 console.log(arrayIncoming.Qty)
                 console.log(arrayIncoming.QtyKg)
                 messages = 'Incoming Added with ID: ' + docRef.id;
@@ -266,8 +267,6 @@ class IncomingSelongsong{
             } else {
                 console.log(listIncoming)
                 const docRef = await this.update(incomingID,arrayIncoming);
-                //stock.plus(arrayIncoming.Qty,arrayIncoming.QtyKg) //tambah data baru 
-                //stock.minus(listIncoming.Qty,listIncoming.QtyKg) //kurangi data lama
                 console.log("Data Baru")
                 console.log(arrayIncoming.Qty)
                 console.log(arrayIncoming.QtyKg)
@@ -275,6 +274,9 @@ class IncomingSelongsong{
                 console.log("Data Lama")
                 console.log(listIncoming.Qty)
                 console.log(listIncoming.QtyKg)
+
+                //stock.minus(listIncoming.Qty,listIncoming.QtyKg) //kurangi data lama
+                //stock.plus(arrayIncoming.Qty,arrayIncoming.QtyKg) //tambah data baru 
 
                 messages = 'Incoming Updated with ID: ' + docRef.id;
                 //console.log(messages);
