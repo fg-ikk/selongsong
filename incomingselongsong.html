@@ -444,6 +444,11 @@
 
                 },
                 async submitForm(){
+
+                    if(!((typeof this.dataForm.qty) === 'number')){
+                        throw Error("Harus angka")
+                    }
+                    
                     let formattedTanggal = new Date(document.getElementById("txt_tglSJ").value)
                     incomingInputData = {
                                     id: this.dataForm.id,

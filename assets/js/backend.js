@@ -41,6 +41,8 @@ class Selongsong {
                 delete arraySelongsong.Posted;
                 delete arraySelongsong.postedHeaderId;
                 const docRef = await this.update(listSelongsong[0].id,arraySelongsong);
+                //let qtyLatest = listSelongsong[0].Qty-arraySelongsong.Qty
+                //let qtyKgLatest = listIncoming.QtyKg-arrayIncoming.QtyKg
                 stock.plus(listSelongsong[0].Qty,listSelongsong[0].Qty*actStock.convertion) //tambahkan data lama
                 stock.minus(arraySelongsong.Qty,arraySelongsong.Qty*actStock.convertion) //kurangi dengan yang baru
                 messages = 'Selongsong Updated with ID: ' + docRef.id;
@@ -256,7 +258,7 @@ class IncomingSelongsong{
             
             if(Object.keys(listIncoming).length === 0){
                 const docRef = await this.IncomingCollection.add(arrayIncoming);
-                //stock.plus(arrayIncoming.Qty,arrayIncoming.QtyKg)
+                stock.plus(arrayIncoming.Qty,arrayIncoming.QtyKg)
                 console.log("akan ditambahkan stok")
                 console.log(arrayIncoming.Qty)
                 console.log(arrayIncoming.QtyKg)
@@ -274,6 +276,11 @@ class IncomingSelongsong{
                 console.log("Data Lama")
                 console.log(listIncoming.Qty)
                 console.log(listIncoming.QtyKg)
+
+                let qtyLatest = listIncoming.Qty-arrayIncoming.Qty
+                let qtyKgLatest = listIncoming.QtyKg-arrayIncoming.QtyKg
+
+                stock.plus(qtyLatest,qtyKgLatest)
 
                 //stock.minus(listIncoming.Qty,listIncoming.QtyKg) //kurangi data lama
                 //stock.plus(arrayIncoming.Qty,arrayIncoming.QtyKg) //tambah data baru 
