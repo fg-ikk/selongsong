@@ -41,9 +41,6 @@
 </head>
 
 <body>
-    <div class="container-loader" x-init x-show="$store.globVar.isLoading"  x-transition.duration.300ms>
-    <div class="custom-loader"></div>
-    </div>
 <!-- Pre-loader start -->
 <div class="theme-loader">
     <div class="loader-track">
@@ -153,10 +150,6 @@
     
         <div class="pcoded-main-container">
             <div class="pcoded-wrapper">
-                
-
-                    <!-- Start Sidebar -->
-
                 <nav class="pcoded-navbar">
                         <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
                         <div class="pcoded-inner-navbar main-menu">
@@ -182,7 +175,7 @@
                                   </a>
                               </li>
                               <li>
-                                  <a href="dataselongsong.html" class="waves-effect waves-dark">
+                                  <a href="dataIncoming.html" class="waves-effect waves-dark">
                                       <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                                       <span class="pcoded-mtext" data-i18n="nav.form-components.main">Data Pemakaian</span>
                                       <span class="pcoded-mcaret"></span>
@@ -221,10 +214,6 @@
                         </div>
                         </div>
                   </nav>
-
-                    <!-- End Sidebar -->
-
-
                 <div class="pcoded-content">
                     <!-- Page-header start -->
                     
@@ -234,77 +223,61 @@
                             <div class="page-wrapper">
                                 <!-- Page body start -->
                                 <div class="page-body button-page">
+                                    
                                     <div class="row">
-                                        <!-- bootstrap modal start -->
-                                        <div class="col-sm-12">
-                                            <!-- Notification card start -->
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5>Input Penerimaan Selongsong</h5>
-                                                </div>
-                                                <div class="card-block">
-                                                     <form x-data="inputIncoming()" @submit.prevent="">
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Tgl SJ</label>
-                                                            <div class="col-sm-3">
-                                                                <input id="txt_tglSJ" type="date" class="form-control" x-model="dataForm.tglSJ">
-                                                                
-                                                            </div>
-
-
-                                                            
+                                            <div class="col-sm-12">
+                                                <!-- Basic Form Inputs card start -->
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Data Penerimaan Selongsong</h5>
+                                                        
+                                                    </div>
+                                                    <div class="card-block table-border-style">
+                                                        <div class="table-responsive" 
+                                                            x-cloak
+                                                            x-data="getIncoming()"
+                                                            x-init="getData"
+                                                            >
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                    <tr class="bg-primary">
+                                                                        <th>No</th>
+                                                                        <th>Tanggal</th>
+                                                                        <th>No SJ</th>
+                                                                        <th>No PO</th>
+                                                                        <th>No Material</th>
+                                                                        <th>Deskripsi</th>
+                                                                        <th>Qty (Kg)</th>
+                                                                        <th>Qty (Pcs)</th>
+                                                                        <th>Keterangan</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <template x-for="(incoming,index) in dataIncoming" >
+                                                                        <tr>
+                                                                            <th scope="row" x-text="index+1"></th>
+                                                                            <td x-text="indoDate(incoming.document.fields.TanggalSJ.timestampValue)"></td>
+                                                                            <td x-text="incoming.document.fields.NoSJ.stringValue"></td>
+                                                                            <td x-text="incoming.document.fields.NoPO.stringValue"></td>
+                                                                            <td x-text="incoming.document.fields.NoMaterial.stringValue"></td>
+                                                                            <td x-text="incoming.document.fields.MaterialDescription.stringValue"></td>
+                                                                            <td x-text="incoming.document.fields.QtyKg.doubleValue"></td>
+                                                                            <td x-text="incoming.document.fields.Qty.integerValue"></td>
+                                                                            <td x-text="incoming.document.fields.Keterangan.stringValue"></td>
+                                                                            <td>
+                                                                            <a target="_blank" class="btn waves-effect waves-light btn-icon" x-bind:href="'incomingselongsong.html?id='+incoming.document.name.split('/').pop()"><i class="icofont icofont-pencil"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </template>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
-                                                        <div class="form-group row">
-                                                            
-                                                            <label class="col-sm-2 col-form-label">No Surat Jalan</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.noSJ">
-                                                            </div>
-                                                            <label class="col-sm-2 col-form-label">No PO</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.noPO">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">No Material</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.noMat">
-                                                            </div>
-                                                            <label class="col-sm-2 col-form-label">Material Desc</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.matDesc">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Qty (kg)</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.qtyKg">
-                                                            </div>
-                                                            <label class="col-sm-2 col-form-label">Qty (Pcs)</label>
-                                                            <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.qty">
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Keterangan</label>
-                                                            <div class="col-sm-10">
-                                                                <input type="text" class="form-control" x-model="dataForm.keterangan">
-                                                            </div>
-                                                        </div>
-                                                            <div class="col-md-3">
-                                                            <button type="button" @click="submitForm()" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Simpan</button>
-                                                            <button id="btn_loaddata" type="button" @click="loadData()" class="btn btn-primary d-none">Cek Data</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- Notification card end -->
                                         </div>
-                                        <!-- Bootstrap modal end -->
-                                    </div>
-                                    
+                                </div>
                                 <!-- Page body end -->
                             </div>
                         </div>
@@ -318,8 +291,16 @@
             </div>
         </div>
     </div>
-</div>                                            
-        
+</div>
+<div x-data="" x-show="$store.globVar.isToast"> 
+    <div :class="$store.globVar.toastClass" class="alert alert-dismissible fade show" style="position: absolute; bottom: 0; right: 0; z-index:999999 !important;">
+        <span x-text="Alpine.store('globVar').messages"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>  
+
 
 <!-- Warning Section Starts -->
 <!-- Older IE warning message -->
@@ -383,7 +364,7 @@
 <script type="text/javascript" src="assets/js/script.js"></script>
 
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.15.0/cdn.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
@@ -393,108 +374,89 @@
     <script type="text/javascript" src="assets/js/backend.js "></script>
     <script type="text/javascript" src="assets/js/functionIKK.js "></script>
     <script type="text/javascript" src="assets/js/auth.js "></script>
-    <script>
-        function inputIncoming() {
-            return {
-                dataForm: {
-                    id: "1",
-                    tglSJ: "",
-                    noSJ: "",
-                    noPO: "",
-                    noMat: "",
-                    matDesc: "",
-                    qtyKg: 0,
-                    qty: 0,
-                    keterangan: ""
-                },
-                clearForm(){
-                    this.id = "",
-                    this.tglSJ = "",
-                    this.noSJ = "",
-                    this.noPO = "",
-                    this.noMat = "",
-                    this.matDesc = "",
-                    this.qtyKg = 0,
-                    this.qty = 0,
-                    this.keterangan = ""
-                },
-                async loadData(){
-                    try {
-                        Alpine.store('globVar').isLoading = true
-                        if(getParameter("id")){
-                            this.dataForm.id = this.getID()
-                            console.log(this.dataForm.id)
-                            let incoming = new IncomingSelongsong()
-                            let incoming2 = {}
-                            incoming2 = await incoming.get(getParameter("id"));
-                            this.dataForm.noSJ = incoming2.NoSJ
-                            this.dataForm.noPO = incoming2.NoPO
-                            this.dataForm.noMat = incoming2.NoMaterial
-                            this.dataForm.matDesc = incoming2.MaterialDescription
-                            this.dataForm.qty = incoming2.Qty
-                            this.dataForm.qtyKg = incoming2.QtyKg      
-                            this.dataForm.keterangan = incoming2.Keterangan
-                        }
-
-                    } catch (error) {
-                        
-                    }finally{
-                        Alpine.store('globVar').isLoading = false
-                    }
-
-                },
-                async submitForm(){
-                    let formattedTanggal = new Date(document.getElementById("txt_tglSJ").value)
-                    incomingInputData = {
-                                    id: this.dataForm.id,
-                                    TanggalSJ: firebase.firestore.Timestamp.fromDate(formattedTanggal),
-                                    NoSJ: this.dataForm.noSJ,
-                                    NoPO: this.dataForm.noPO,
-                                    NoMaterial: this.dataForm.noMat,
-                                    MaterialDescription: this.dataForm.matDesc,
-                                    Qty : parseInt(this.dataForm.qty),
-                                    QtyKg : parseFloat(this.dataForm.qtyKg),
-                                    createdAt: firebase.firestore.Timestamp.now(),        
-                                    Keterangan: this.dataForm.keterangan,
-                           }     
-                    
-                    let incoming = new IncomingSelongsong()
-                    let incoming2 = {}
-                    try{
-                            
-                            Alpine.store('globVar').isLoading = true
-                            incoming2 = await incoming.add(incomingInputData);
-                            if(incoming2.success) {
-                                this.clearForm()
-                                notify(incoming2.messages, 'success');
-                            } else {
-                                notify(incoming2.messages, 'warning');
-                            }
-                            console.log(incoming2)
-                        } catch (error){
-                            notify(error, 'danger');
-                            console.log(error)
-                        } finally {
-                            Alpine.store('globVar').isLoading = false
-                        }
-                            
-                            
-                },
-                getID() {
-                    return (!getParameter("id")) ? "1" : getParameter("id")
-                }
-            }
-        }
-    </script>
     
     <script>
-        
+        function getIncoming(){
+            return {
+                templateQueryFilter: {
+                    structuredQuery: {
+                        select: { 
+                            fields: [
+                                {
+                                "fieldPath": "NoSJ"
+                                },{
+                                "fieldPath": "NoPO"
+                                },{
+                                "fieldPath": "NoMaterial"
+                                },{
+                                "fieldPath": "MaterialDescription"
+                                },{
+                                "fieldPath": "Qty"
+                                },{
+                                "fieldPath": "QtyKg"
+                                },{
+                                "fieldPath": "TanggalSJ"
+                                },{
+                                "fieldPath": "Keterangan"
+                                }
+                            ]
+                        },
+                        from: [{
+                            "collectionId": "incoming_selongsong",
+                            "allDescendants": true
+                        }],
+                        "orderBy": [
+                            {
+                            "field": {
+                                    "fieldPath": "TanggalSJ"
+                                },
+                                "direction": "DESCENDING"
+                            }
+                        ],
+                        "offset": 0,
+                        "limit": 50,
+                    }
+                }, 
+                queryFilter: {},           
+                dataIncoming: [],
+                dateFrom: "",
+                dateTo: "",
+                getData(){
+                    
+                    fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
+                    method: 'POST',
+                    headers: { 
+                            //'Authorization': `Bearer ${getToken()}`,
+                            'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(this.templateQueryFilter)
+                })
+                .then((res) => {
+                    //console.log(res) 
+                    return res.json()
+                    
+                }) 
+                .then(data => {
+                    this.dataIncoming = data
+                    console.log(data);
+                    //console.log(this.dataIncoming);
+                })                    
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    
+                    // Tangani error di sini
+                })
+                .finally(() => {
+                    
+                });
+                }
+            }
+
+        }
     </script>
-     <script>
-        setTimeout(function() {   
-            document.getElementById("btn_loaddata").click()
-         ;             
-      }, 1000)
+
+  <script>
     document.addEventListener('alpine:init', () => {
             Alpine.store('globVar', {
                   isLoading: false,
@@ -504,9 +466,11 @@
                   }
             });
          });
-    </script>
 
-    
+         
+  </script>
+
+
 </body>
 
 </html>

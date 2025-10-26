@@ -66,7 +66,7 @@ class Selongsong {
     }
 
     async get(id) {
-        let detailSelongsong;
+        let detailSelongsong = {};
         try {
             let doc = await this.collection.doc(id).get();
             
@@ -231,6 +231,104 @@ class stockSelongsong{
         }
 
         return detailStock;
+    }
+
+}
+
+class IncomingSelongsong{ 
+     constructor(rawdata) {
+        this.rawdata = rawdata;
+        this.IncomingCollection = db.collection("incoming_selongsong");
+    }
+    async add(arrayIncoming) {
+        let detailIncoming = {};
+        let messages = ""
+        let actStock
+        let incomingID = arrayIncoming.id
+        delete arrayIncoming.id
+        try {
+            
+            let listIncoming = await this.get(incomingID);
+            console.log(listIncoming)
+            
+            let stock = new stockSelongsong()
+            actStock = await stock.getSelongsongStock()
+            
+            if(Object.keys(listIncoming).length === 0){
+                const docRef = await this.IncomingCollection.add(arrayIncoming);
+                //stock.plus(arrayIncoming.qty,arrayIncoming.qtyKg)
+                console.log(arrayIncoming.Qty)
+                console.log(arrayIncoming.QtyKg)
+                messages = 'Incoming Added with ID: ' + docRef.id;
+                detailIncoming.id = docRef.id;
+                detailIncoming.success = true;
+                detailIncoming.messages = messages;
+            } else {
+                console.log(listIncoming)
+                const docRef = await this.update(incomingID,arrayIncoming);
+                //stock.plus(arrayIncoming.Qty,arrayIncoming.QtyKg) //tambah data baru 
+                //stock.minus(listIncoming.Qty,listIncoming.QtyKg) //kurangi data lama
+                console.log("Data Baru")
+                console.log(arrayIncoming.Qty)
+                console.log(arrayIncoming.QtyKg)
+
+                console.log("Data Lama")
+                console.log(listIncoming.Qty)
+                console.log(listIncoming.QtyKg)
+
+                messages = 'Incoming Updated with ID: ' + docRef.id;
+                //console.log(messages);
+                detailIncoming.id = docRef.id;
+                detailIncoming.success = true;
+                detailIncoming.messages = messages;
+                
+            }
+                
+            
+                
+
+        } catch (error) {
+            messages = 'Error Adding Incoming: ' + error
+            console.error(error)
+            throw Error(messages);
+        }
+        
+
+        return detailIncoming;
+    }
+
+    async get(id) {
+        let detailIncoming = {};
+        try {
+            let doc = await this.IncomingCollection.doc(id).get();
+            
+            if(doc.exists) 
+                detailIncoming = {id: doc.id, ...doc.data()}
+            else
+                console.log('No document found with id: ', id);
+        } 
+        catch (error) {
+            console.error('Error in getting incoming: ', error);
+        }
+        console.log(detailIncoming)
+        return detailIncoming;
+    }
+
+    async update(id, arrayIncoming) {
+
+        let detailIncoming = {};
+        try {
+            const docRef = await this.IncomingCollection.doc(id);
+            docRef.update(arrayIncoming)
+            console.log('Incoming updated with ID: ', docRef.id);
+            detailIncoming.id = docRef.id;
+
+        } catch (error) {
+            //console.error('Error Update Incoming: ', error)
+            throw Error(error);
+        }
+
+        return detailIncoming;
     }
 
 }
