@@ -41,10 +41,17 @@ class Selongsong {
                 delete arraySelongsong.Posted;
                 delete arraySelongsong.postedHeaderId;
                 const docRef = await this.update(listSelongsong[0].id,arraySelongsong);
-                //let qtyLatest = listSelongsong[0].Qty-arraySelongsong.Qty
+                let qtyLatest = arraySelongsong.Qty-listSelongsong[0].Qty
+                console.log("data lama")
+                console.log(listSelongsong[0].Qty)
+                console.log("data baru")
+                console.log(arraySelongsong.Qty)
+                console.log("pengurangan")
+                console.log(qtyLatest)
                 //let qtyKgLatest = listIncoming.QtyKg-arrayIncoming.QtyKg
-                stock.plus(listSelongsong[0].Qty,listSelongsong[0].Qty*actStock.convertion) //tambahkan data lama
-                stock.minus(arraySelongsong.Qty,arraySelongsong.Qty*actStock.convertion) //kurangi dengan yang baru
+                //stock.plus(listSelongsong[0].Qty,listSelongsong[0].Qty*actStock.convertion) //tambahkan data lama
+                //stock.minus(arraySelongsong.Qty,arraySelongsong.Qty*actStock.convertion) //kurangi dengan yang baru
+                stock.minus(qtyLatest,qtyLatest*actStock.convertion)
                 messages = 'Selongsong Updated with ID: ' + docRef.id;
                 //console.log(messages);
                 detailSelongsong.id = docRef.id;
@@ -277,8 +284,8 @@ class IncomingSelongsong{
                 console.log(listIncoming.Qty)
                 console.log(listIncoming.QtyKg)
 
-                let qtyLatest = listIncoming.Qty-arrayIncoming.Qty
-                let qtyKgLatest = listIncoming.QtyKg-arrayIncoming.QtyKg
+                let qtyLatest = arrayIncoming.Qty-listIncoming.Qty
+                let qtyKgLatest = arrayIncoming.QtyKg-listIncoming.QtyKg
 
                 stock.plus(qtyLatest,qtyKgLatest)
 

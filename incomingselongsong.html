@@ -278,11 +278,11 @@
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 col-form-label">Qty (kg)</label>
                                                             <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.qtyKg">
+                                                                <input type="number" class="form-control" x-model="dataForm.qtyKg">
                                                             </div>
                                                             <label class="col-sm-2 col-form-label">Qty (Pcs)</label>
                                                             <div class="col-sm-3">
-                                                                <input type="text" class="form-control" x-model="dataForm.qty">
+                                                                <input type="number" class="form-control" x-model="dataForm.qty">
                                                                 
                                                             </div>
                                                         </div>
@@ -445,9 +445,8 @@
                 },
                 async submitForm(){
 
-                    if(!((typeof this.dataForm.qty) === 'number')){
-                        throw Error("Harus angka")
-                    }
+                    console.log((typeof this.dataForm.qty) === 'number')
+                    
                     
                     let formattedTanggal = new Date(document.getElementById("txt_tglSJ").value)
                     incomingInputData = {
