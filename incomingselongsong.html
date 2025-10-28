@@ -446,6 +446,12 @@
                 async submitForm(){
 
                     console.log((typeof this.dataForm.qty) === 'number')
+
+                    if(dataForm.qty == 0 || dataForm.qtyKg == 0){
+
+                        notify("Qty tidak boleh 0", 'danger');
+
+                    }
                     
                     
                     let formattedTanggal = new Date(document.getElementById("txt_tglSJ").value)

@@ -41,6 +41,10 @@
 </head>
 
 <body>
+    
+    <div class="container-loader" x-init x-show="$store.globVar.isLoading"  x-transition.duration.300ms>
+    <div class="custom-loader"></div>
+    </div>
 <!-- Pre-loader start -->
 <div class="theme-loader">
     <div class="loader-track">
@@ -231,11 +235,23 @@
                                                         <h5>Data Pemakaian Selongsong</h5>
                                                         
                                                     </div>
-                                                    <div class="card-block table-border-style">
-                                                        <div class="table-responsive" 
+                                                    <div class="card-block table-border-style" 
                                                             x-cloak
-                                                            x-data="getSelongsong()"
-                                                            x-init="getData"
+                                                            x-data="getSelongsong()">
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-4">
+                                                                    <input id="txt_tglFrom" type="date" class="form-control">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <input id="txt_tglTo" type="date" class="form-control">
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <button @click="getData()"  class="btn waves-effect waves-light btn-primary">
+                                                                    <span class="icofont icofont-search"> Search</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="table-responsive"
                                                             >
                                                             <table class="table table-hover">
                                                                 <thead>
@@ -373,8 +389,14 @@
     <script type="text/javascript" src="assets/js/auth.js "></script>
     
     <script>
+        document.getElementById("txt_tglFrom").value = hariIni()
+        document.getElementById("txt_tglTo").value = hariIni()
         function getSelongsong(){
             return {
+                dataForm: {
+                    tglFrom: "",
+                    tglTo: "",
+                },
                 templateQueryFilter: {
                     structuredQuery: {
                         select: { 
@@ -402,6 +424,32 @@
                             "collectionId": "selongsong",
                             "allDescendants": true
                         }],
+                        "where": {
+                            "compositeFilter" : {
+                                "op": "AND",
+                                "filters": [
+                                    {
+                                    "fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "LESS_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": "2025-10-28T00:00:00Z"
+                                        }
+                                    }},
+                                    {"fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "GREATER_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": "2025-10-26T00:00:00Z"
+                                        }
+                                    }},
+                                ]
+                        }  
+                        },
                         "orderBy": [
                             {
                             "field": {
@@ -411,7 +459,7 @@
                             }
                         ],
                         "offset": 0,
-                        "limit": 500,
+                        "limit": 50,
                     }
                 }, 
                 queryFilter: {},           
@@ -419,7 +467,12 @@
                 dateFrom: "",
                 dateTo: "",
                 getData(){
-                    
+                    Alpine.store('globVar').isLoading = true
+                    let tglFrom = new Date(document.getElementById("txt_tglFrom").value)
+                    let tglTo = new Date(document.getElementById("txt_tglTo").value)
+                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[1].fieldFilter.value.timestampValue = tglFrom.toISOString()
+                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value.timestampValue = tglTo.toISOString()
+                    console.log(this.templateQueryFilter)
                     fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
                     method: 'POST',
                     headers: { 
@@ -445,6 +498,7 @@
                     // Tangani error di sini
                 })
                 .finally(() => {
+                    Alpine.store('globVar').isLoading = false
                     
                 });
                 }

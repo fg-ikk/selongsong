@@ -788,7 +788,11 @@
                     });
                 },
                 async submitForm() {
+                    if(this.dataForm.qty == 0){
+                        
+                        notify("Qty tidak boleh 0", 'danger');
 
+                    } else {
                     //Timestamp.fromDate(publishDate)
                     let formattedTanggal = new Date(document.getElementById("txt_tglDelivery").value)
                     let formattedTanggalIML = new Date(this.dataForm.tglIML)
@@ -827,6 +831,7 @@
                         } finally {
                             Alpine.store('globVar').isLoading = false
                         }
+                    }
                 }
             }
         }

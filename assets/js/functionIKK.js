@@ -78,3 +78,5 @@ getParameter = (key) => {
     return parameterList.get(key)
 }
 
+hariIni = () => {return new Date().toJSON().slice(0,10)}
+dateYMD = (date) => {return new Date(date).toJSON().slice(0,10)}

@@ -243,23 +243,14 @@
                                                             >
                                                             <div class="form-group row">
                                                                 <div class="col-sm-4">
-                                                                    <select class="form-control" x-model="selPostedValue">
-                                                                        <template x-for="selection in selPosted" :key="selection.id">
-                                                                            <option
-                                                                                x-bind:value="selection.id"
-                                                                                x-text="selection.name" 
-                                                                            />
-                                                                        </template>
-                                                                    </select>
+                                                                    <input id="txt_tglFrom" type="date" class="form-control" x-model="dataForm.tglFrom">
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <input id="txt_tglTo" type="date" class="form-control" x-model="dataForm.tglTo">
                                                                 </div>
                                                                 <div class="col-sm-2">
                                                                     <button @click="getData()"  class="btn waves-effect waves-light btn-primary">
                                                                        <span class="icofont icofont-search"> Search</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <button @click="posting()" class="btn waves-effect waves-light btn-primary">
-                                                                        <span class="icofont icofont-sign-out"> Post</span>
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -267,25 +258,19 @@
                                                                 <thead>
                                                                     <tr class="bg-primary">
                                                                         <th>No</th>
-                                                                        <th><input type="checkbox" class="form-check-label" id="selectAllCheckbox"></th>
                                                                         <th>Tanggal</th>
-                                                                        <th>No DN</th>
-                                                                        <th>Nopol</th>
-                                                                        <th>Ekspedisi</th>
-                                                                        <th>Qty (Pcs)</th>
+                                                                        <th>No Posting</th>
+                                                                        <th>Keterangan</th>
                                                                         <th>Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <template x-for="(selongsong,index) in dataSelongsong" >
                                                                         <tr>
-                                                                            <th scope="row" x-text="index+1"></th>
-                                                                            <td><input id="check_selongsong" type="checkbox" x-model="$store.globVar.selectedSelongsong" value="selongsong.document.name.split('/').pop()" class="form-check-label datacheck"> </td>
+                                                                            <td scope="row" x-text="index+1"></td>
                                                                             <td x-text="indoDate(selongsong.document.fields.Tanggal.timestampValue)"></td>
-                                                                            <td x-text="selongsong.document.fields.NoDN.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Nopol.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Ekspedisi.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Qty.integerValue"></td>
+                                                                            <td x-text="selongsong.document.fields.NoPosting.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.Keterangan.stringValue"></td>
                                                                             <td>
                                                                             <a target="_blank" class="btn waves-effect waves-light btn-icon" x-bind:href="'assets/pages/form/cetakformselongsong.html?id='+selongsong.document.name.split('/').pop()"><i class="icofont icofont-print"></i></a>
                                                                             </td>
@@ -422,6 +407,7 @@
                             "collectionId": "selongsong",
                             "allDescendants": true
                         }],
+                        /*
                         "where": {
                             "fieldFilter": {
                                 "field": {
@@ -432,6 +418,43 @@
                                     "booleanValue": Alpine.store('globVar').selPostedValue
                                 }
                             }
+                        },
+                        */
+                       "where": {
+                            "compositeFilter" : {
+                                "op": "AND",
+                                "filters": [
+                                    {
+                                    "fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "LESS_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": ""
+                                        }
+                                    }},
+                                    {"fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "GREATER_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": ""
+                                        }
+                                    }},
+                                    {
+                                    "fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Posted"
+                                        },
+                                        "op": "EQUAL",
+                                        "value": {
+                                            "booleanValue": Alpine.store('globVar').selPostedValue
+                                        }
+                                    }}  
+                                ]
+                        }  
                         },
                         "orderBy": [
                             {
@@ -445,9 +468,8 @@
                         "limit": 500,
                     }
                 }, 
-                queryFilter: {},  
-                dataSelongsong: [],           
-                checkSelongsong: [],
+                queryFilter: {},           
+                dataSelongsong: [],
                 dateFrom: "",
                 dateTo: "",
                 selPosted: [
@@ -456,10 +478,12 @@
                 ],
                 selPostedValue: "true",
                 getData(){
-                    Alpine.store('globVar').isLoading = true
                     console.log(this.templateQueryFilter)
                     this.templateQueryFilter.structuredQuery.where.fieldFilter.value.booleanValue = this.selPostedValue
-                    
+                    let tglFrom = new Date(document.getElementById("txt_tglFrom").value)
+                    let tglTo = new Date(document.getElementById("txt_tglTo").value)
+                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[1].fieldFilter.value.timestampValue = tglFrom.toISOString()
+                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value.timestampValue = tglTo.toISOString()
                     fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
                     method: 'POST',
                     headers: { 
@@ -485,12 +509,9 @@
                     // Tangani error di sini
                 })
                 .finally(() => {
-                    Alpine.store('globVar').isLoading = false
+                    
                 });
                 
-                },
-                posting(){
-                    console.log(this.checkSelongsong)
                 }
             }
 
@@ -525,7 +546,6 @@
             Alpine.store('globVar', {
                   isLoading: false,
                   isShow: false,
-                  selectedSelongsong: [],
                   selPostedValue: "false",
                   toggleIsShow(){
                      this.isShow = !this.isShow
