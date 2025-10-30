@@ -485,32 +485,32 @@
                     this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[1].fieldFilter.value.timestampValue = tglFrom.toISOString()
                     this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value.timestampValue = tglTo.toISOString()
                     fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
-                    method: 'POST',
-                    headers: { 
-                            //'Authorization': `Bearer ${getToken()}`,
-                            'Content-Type': 'application/json' 
-                    },
-                    body: JSON.stringify(this.templateQueryFilter)
-                })
-                .then((res) => {
-                    //console.log(res) 
-                    return res.json()
-                    
-                }) 
-                .then(data => {
-                    this.dataSelongsong = data
-                    console.log(data);
-                    //console.log(this.dataSelongsong);
-                })                    
-                .catch(error => {
-                    console.error('Error:', error);
-                    
-                    
-                    // Tangani error di sini
-                })
-                .finally(() => {
-                    
-                });
+                        method: 'POST',
+                        headers: { 
+                                //'Authorization': `Bearer ${getToken()}`,
+                                'Content-Type': 'application/json' 
+                        },
+                        body: JSON.stringify(this.templateQueryFilter)
+                    })
+                    .then((res) => {
+                        //console.log(res) 
+                        return res.json()
+                        
+                    }) 
+                    .then(data => {
+                        this.dataSelongsong = data
+                        console.log(data);
+                        //console.log(this.dataSelongsong);
+                    })                    
+                    .catch(error => {
+                        console.error('Error:', error);
+                        
+                        
+                        // Tangani error di sini
+                    })
+                    .finally(() => {
+                        
+                    });
                 
                 }
             }

@@ -241,86 +241,45 @@
                                                             x-data="getSelongsong()"
                                                             
                                                             >
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-4">
-                                                                    <select class="form-control" x-model="selPostedValue">
-                                                                        <template x-for="selection in selPosted" :key="selection.id">
-                                                                            <option
-                                                                                x-bind:value="selection.id"
-                                                                                x-text="selection.name" 
-                                                                            />
-                                                                        </template>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <button id="btnCari" @click="getData()"  class="btn waves-effect waves-light btn-primary">
-                                                                       <span class="icofont icofont-search"> Search</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-sm-2">
-                                                                    <button class="btn waves-effect waves-light btn-primary" data-toggle="modal" data-target="#modalInputPosting">
-                                                                        <span class="icofont icofont-sign-out"> Post</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal fade" id="modalInputPosting" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Input Posting</h5>
-                                                                                    <button id="btnModalScanClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                   <div class="form-group row">
-                                                                                        <label class="col-sm-2 col-form-label">Tgl Posting</label>
-                                                                                        <div class="col-sm-6">
-                                                                                            <input id="txt_tglPosting" type="date" class="form-control" x-model="tglPosting">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-group row">
-                                                                                        <label class="col-sm-2 col-form-label">Keterangan</label>
-                                                                                        <div class="col-sm-10">
-                                                                                            <input type="text" class="form-control" x-model="keterangan">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" @click="posting()" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                            </div>
                                                             <table class="table table-hover">
                                                                 <thead>
                                                                     <tr class="bg-primary">
                                                                         <th>No</th>
-                                                                        <th><input type="checkbox" @click="toggleAllCheckboxes()" class="form-check-label" id="selectAllCheckbox"></th>
-                                                                        <th>Tanggal</th>
-                                                                        <th>No DN</th>
-                                                                        <th>Nopol</th>
-                                                                        <th>Ekspedisi</th>
-                                                                        <th>Qty (Pcs)</th>
                                                                         <th>Action</th>
+                                                                        <th>Tanggal</th>
+                                                                        <th>NO IML</th>
+                                                                        <th>Nopol</th>
+                                                                        <th>Nama Supir</th>
+                                                                        <th>Nomer HP</th>
+                                                                        <th>No DN</th>
+                                                                        <th>Ekspedisi</th>
+                                                                        <th>Customer</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <template x-for="(selongsong,index) in dataSelongsong" >
+                                                                    
+
                                                                         <tr>
-                                                                            <th scope="row" x-text="index+1"></th>
-                                                                            <td><input type="checkbox" :value="selongsong.document.name.split('/').pop()" class="form-check-label datacheck"> </td>
-                                                                            <td x-text="indoDate(selongsong.document.fields.Tanggal.timestampValue)"></td>
-                                                                            <td x-text="selongsong.document.fields.NoDN.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Nopol.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Ekspedisi.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Qty.integerValue"></td>
+                                                                            <td scope="row" x-text="index+1"></td>
                                                                             <td>
-                                                                            <a target="_blank" class="btn waves-effect waves-light btn-icon" x-bind:href="'assets/pages/form/cetakformselongsong.html?id='+selongsong.document.name.split('/').pop()"><i class="icofont icofont-print"></i></a>
+                                                                                <button class="btn waves-effect waves-light btn-primary btn-sm">
+                                                                                    Proses
+                                                                                </button>
+                                                                                <button class="btn waves-effect waves-light btn-secondary btn-sm">
+                                                                                    Batal
+                                                                                </button>
                                                                             </td>
+                                                                            <td>tanggal</td>
+                                                                            <td>IML</td>
+                                                                            <td>Nopol</td>
+                                                                            <td>Nama</td>
+                                                                            <td>HP</td>
+                                                                            <td>DN</td>
+                                                                            <td>Ekspedisi</td>
+                                                                            <td>Customer</td>
                                                                         </tr>
-                                                                    </template>
+                                                                    
+
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -434,7 +393,7 @@
                         select: { 
                             fields: [
                                 {
-                                "fieldPath": "Tanggal"
+                                "fieldPath": "WaktuAntri"
                                 },{
                                 "fieldPath": "Nopol"
                                 },{
@@ -442,16 +401,21 @@
                                 },{
                                 "fieldPath": "Ekspedisi"
                                 },{
-                                "fieldPath": "Qty"
+                                "fieldPath": "NoIML"
                                 },{
-                                "fieldPath": "Posted"
+                                "fieldPath": "NamaSupir"
+                                },{
+                                "fieldPath": "Customer"
+                                },{
+                                "fieldPath": "Keterangan"
                                 }
                             ]
                         },
                         from: [{
-                            "collectionId": "selongsong",
+                            "collectionId": "stayingtime",
                             "allDescendants": true
                         }],
+                        /*
                         "where": {
                             "fieldFilter": {
                                 "field": {
@@ -463,10 +427,48 @@
                                 }
                             }
                         },
+                        
+                       "where": {
+                            "compositeFilter" : {
+                                "op": "AND",
+                                "filters": [
+                                    {
+                                    "fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "LESS_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": ""
+                                        }
+                                    }},
+                                    {"fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "GREATER_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": ""
+                                        }
+                                    }},
+                                    {
+                                    "fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Posted"
+                                        },
+                                        "op": "EQUAL",
+                                        "value": {
+                                            "booleanValue": Alpine.store('globVar').selPostedValue
+                                        }
+                                    }}  
+                                ]
+                        }  
+                        },
+                        */
                         "orderBy": [
                             {
                             "field": {
-                                    "fieldPath": "Tanggal"
+                                    "fieldPath": "WaktuAntri"
                                 },
                                 "direction": "DESCENDING"
                             }
@@ -475,166 +477,51 @@
                         "limit": 500,
                     }
                 }, 
-                postingData: {
-                                "fields": {
-                                    "Tanggal": {
-                                    "timestampValue": ""
-                                    },
-                                    "Keterangan": {
-                                    "stringValue": ""
-                                    },
-                                    "createdAt": {
-                                    "timestampValue": ""
-                                    },
-                                }
-                           },
-                queryFilter: {},  
-                dataSelongsong: [],           
-                checkSelongsong: [],
-                docId:"",
-                tglPosting: "",
-                keterangan: "",
+                queryFilter: {},           
+                dataSelongsong: [],
                 dateFrom: "",
                 dateTo: "",
                 selPosted: [
                     { id: 'true', name: 'Posted' },
                     { id: 'false', name: 'Not Posted' }
                 ],
-                selectAll: false,
-                toggleAllCheckboxes() {
-                    this.selectAll = !this.selectAll
-
-                    checkboxes = document.querySelectorAll('.datacheck');
-                    [...checkboxes].map((el) => {
-                        el.checked = this.selectAll;
-                    })
-                },
                 selPostedValue: "true",
                 getData(){
-                    Alpine.store('globVar').isLoading = true
                     console.log(this.templateQueryFilter)
                     this.templateQueryFilter.structuredQuery.where.fieldFilter.value.booleanValue = this.selPostedValue
-                    
+                    let tglFrom = new Date(document.getElementById("txt_tglFrom").value)
+                    let tglTo = new Date(document.getElementById("txt_tglTo").value)
+                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[1].fieldFilter.value.timestampValue = tglFrom.toISOString()
+                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value.timestampValue = tglTo.toISOString()
                     fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
-                        method: 'POST',
-                        headers: { 
-                                //'Authorization': `Bearer ${getToken()}`,
-                                'Content-Type': 'application/json' 
-                        },
-                        body: JSON.stringify(this.templateQueryFilter)
-                    })
-                    .then((res) => {
-                        //console.log(res) 
-                        return res.json()
-                        
-                    }) 
-                    .then(data => {
-                        this.dataSelongsong = data
-                        //console.log(data);
-                    })                    
-                    .catch(error => {
-                        console.error('Error:', error);
-                        
-                        
-                        // Tangani error di sini
-                    })
-                    .finally(() => {
-                        Alpine.store('globVar').isLoading = false
-                    });
+                    method: 'POST',
+                    headers: { 
+                            //'Authorization': `Bearer ${getToken()}`,
+                            'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(this.templateQueryFilter)
+                })
+                .then((res) => {
+                    //console.log(res) 
+                    return res.json()
                     
-                },
-                async posting(){ 
-                    Alpine.store('globVar').isLoading = true
-                    let index = 0
-                    this.checkSelongsong = []
-                    checkboxes = document.querySelectorAll('.datacheck:checked');
-                    if(checkboxes.length <=0){
-                        notify("Tidak ada data yang dipilih", 'danger');
-                        Alpine.store('globVar').isLoading = false
-                        return false
-                    }
-
-                    checkboxes.forEach((checkbox) => {
-                        this.checkSelongsong.push(checkbox.value);
-                        console.log(checkbox.value)
-                    })
+                }) 
+                .then(data => {
+                    this.dataSelongsong = data
+                    console.log(data);
+                    //console.log(this.dataSelongsong);
+                })                    
+                .catch(error => {
+                    console.error('Error:', error);
                     
-                    console.log(this.checkSelongsong)
-
-                    let formattedTanggal = new Date(document.getElementById("txt_tglPosting").value)
-                    let sekarang = new Date()
-                    this.postingData.fields.Tanggal.timestampValue = formattedTanggal.toISOString()
-                    this.postingData.fields.Keterangan.stringValue = this.keterangan
-                    this.postingData.fields.createdAt.timestampValue = sekarang.toISOString()
-                    console.log(this.postingData)
-                    let responseAdd = await this.submitHeader()
-                    this.docId = responseAdd.name.split('/').pop()
-                    /*
-                    this.checkSelongsong.forEach((name) => {
-                        console.log(this.updatePosted(this.docId,name))
-                    });
-                    */
-                    Promise.
-                    all(this.checkSelongsong.map(async(name) => {
-                        const values = await this.updatePosted(this.docId,name);
-                        notify("Posting Berhasil", 'success');
-                        document.getElementById("btnCari").click()
-                        console.log(values)
-                    })).
-                    catch(err => {
-                        err.message; // Oops!
-                    }).finally(() => {
-                        Alpine.store('globVar').isLoading = false
-                    });
                     
-                },
-                async submitHeader(){
-                    return await fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents/posting_selongsong`, {
-                        method: 'POST',
-                        headers: { 
-                                //'Authorization': `Bearer ${getToken()}`,
-                                'Content-Type': 'application/json' 
-                        },
-                        body: JSON.stringify(this.postingData)
-                    })
-                    .then(res => res.json()) 
-                    .then(data => data)                    
-                    .catch(error => {
-                        console.error('Error:', error);
-                    })
-                    .finally(() => {
-                        
-                    });
-                },
-                async updatePosted(idPosting,idSelongsong){
-                    let postedObject = {
-                            "fields": {
-                                "Posted": {
-                                "booleanValue": true
-                                },
-                                "postedHeaderId": {
-                                "stringValue": `"${idPosting}"`
-                                }
-                            }
-                        }
-                    return await fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents/selongsong/${idSelongsong}/?updateMask.fieldPaths=Posted&updateMask.fieldPaths=postedHeaderId`, {
-                        method: 'PATCH',
-                        headers: { 
-                                //'Authorization': `Bearer ${getToken()}`,
-                                'Content-Type': 'application/json' 
-                        },
-                        body: JSON.stringify(postedObject)
-                    })
-                    .then(res => res.json()) 
-                    .then(data => data)                    
-                    .catch(error => {
-                        console.error('Error:', error);
-                    })
-                    .finally(() => {
-                        
-                    });
+                    // Tangani error di sini
+                })
+                .finally(() => {
+                    
+                });
+                
                 }
-                           
             }
 
         }
@@ -668,7 +555,6 @@
             Alpine.store('globVar', {
                   isLoading: false,
                   isShow: false,
-                  selectedSelongsong: [],
                   selPostedValue: "false",
                   toggleIsShow(){
                      this.isShow = !this.isShow
@@ -681,11 +567,9 @@
 
   
     <script>
-        /*
         $('#selectAllCheckbox').change(function () {
             $('.datacheck').prop('checked', $(this).prop('checked'));
         });
-        */
     </script>
     
 </body>
