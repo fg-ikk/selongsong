@@ -212,6 +212,13 @@
                                       <span class="pcoded-mcaret"></span>
                                   </a>
                               </li>
+                                <li>
+                                    <a href="datapostingaccounting.html" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Data Posting</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
         
                           </ul>
                         </div>
@@ -254,7 +261,7 @@
                                                                     </button>
                                                                 </div>
                                                             </div>
-                                                            <table class="table table-hover">
+                                                            <table class="table table-hover" x-show="!$store.globVar.isShow">
                                                                 <thead>
                                                                     <tr class="bg-primary">
                                                                         <th>No</th>
@@ -270,8 +277,7 @@
                                                                             <td x-text="indoDate(posting.document.fields.Tanggal.timestampValue)"></td>
                                                                             <td x-text="posting.document.fields.Keterangan.stringValue"></td>
                                                                             <td>
-                                                                            <a class="btn waves-effect waves-light btn-icon" ><i class="icofont icofont-barcode"></i></a>
-                                                                            <a class="btn waves-effect waves-light btn-icon" ><i class="icofont icofont-search"></i></a>
+                                                                            <a @click="getDataSelongsong(posting.document.name.split('/').pop())" class="btn waves-effect waves-light btn-icon"><i class="icofont icofont-search"></i></a>
                                                                             </td>
                                                                         </tr>
                                                                     </template>
@@ -279,7 +285,7 @@
                                                             </table>
 
                                                             <div class="table-responsive"
-                                                            >
+                                                            x-show="$store.globVar.isShow" >
                                                             <table class="table table-hover">
                                                                 <thead>
                                                                     <tr class="bg-primary">
@@ -443,36 +449,20 @@
                             "collectionId": "selongsong",
                             "allDescendants": true
                         }],
-                        /*
+                        
                         "where": {
                             "fieldFilter": {
                                 "field": {
-                                    "fieldPath": "Posted"
+                                    "fieldPath": "postedHeaderId"
                                 },
                                 "op": "EQUAL",
                                 "value": {
-                                    "booleanValue": Alpine.store('globVar').selPostedValue
+                                    "stringValue": ""
                                 }
                             }
                         },
-                        */
-                       "where": {
-                            "compositeFilter" : {
-                                "op": "AND",
-                                "filters": [
-                                    {
-                                    "fieldFilter": {
-                                        "field": {
-                                            "fieldPath": "postHeaderId"
-                                        },
-                                        "op": "EQUAL",
-                                        "value": {
-                                            "stringValue": ""
-                                        }
-                                    }}  
-                                ]
-                        }  
-                        },
+                        
+                       
                         "orderBy": [
                             {
                             "field": {
@@ -541,7 +531,8 @@
                     }
                 },
                 queryFilter: {},           
-                dataPosting: [],
+                dataPosting: [],    
+                dataSelongsong: {},
                 dateFrom: "",
                 dateTo: "",
                 dataForm: {
@@ -550,6 +541,8 @@
                     createdAt: "",
                 },
                 getData(){
+                    
+                    Alpine.store('globVar').isShow = false
                     console.log(this.templateQueryFilter)
                     let tglFrom = new Date(document.getElementById("txt_tglFrom").value)
                     let tglTo = new Date(document.getElementById("txt_tglTo").value)
@@ -585,7 +578,9 @@
                 
                 },
                 getDataSelongsong(headerPosting){
-                    templateQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value = headerPosting
+                    Alpine.store('globVar').isShow = true
+                    this.templateQueryFilter.structuredQuery.where.fieldFilter.value.stringValue = headerPosting
+                    console.log(this.templateQueryFilter)
                     Alpine.store('globVar').isLoading = true
                     fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
                     method: 'POST',
@@ -622,6 +617,9 @@
     </script>
 
   <script>
+    
+        document.getElementById("txt_tglFrom").value = hariIni()
+        document.getElementById("txt_tglTo").value = hariIni()
     const stringToBoolean = (stringValue) => {
         /*
         switch(stringValue?.toLowerCase()?.trim()){
@@ -661,9 +659,8 @@
 
   
     <script>
-        $('#selectAllCheckbox').change(function () {
-            $('.datacheck').prop('checked', $(this).prop('checked'));
-        });
+        
+    
     </script>
     
 </body>

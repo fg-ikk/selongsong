@@ -191,6 +191,7 @@ class stockSelongsong{
         let detailStock
         let penambahanPcs
         let penambahanKg
+        let calcConvertion
         try {
 
             detailStock = await this.getSelongsongStock()
@@ -199,9 +200,11 @@ class stockSelongsong{
             let convertion = detailStock.convertion
             penambahanKg = totalKg + qtyKg
             penambahanPcs = totalPcs + qtyPcs 
+            calcConvertion = penambahanKg / penambahanPcs
             this.document.update({
                                     kg: penambahanKg,
                                     pcs: penambahanPcs,
+                                    convertion : calcConvertion
                                 })
             console.log(detailStock)
             detailStock = await this.getSelongsongStock()
@@ -219,6 +222,7 @@ class stockSelongsong{
         let detailStock
         let penguranganPcs
         let penguranganKg
+        let calcConvertion
         try {
 
             detailStock = await this.getSelongsongStock()
@@ -227,9 +231,11 @@ class stockSelongsong{
             let convertion = detailStock.convertion
             penguranganKg = totalKg - qtyKg
             penguranganPcs = totalPcs - qtyPcs 
+            calcConvertion = penguranganKg / penguranganPcs
             this.document.update({
                                     kg: penguranganKg,
                                     pcs: penguranganPcs,
+                                    convertion : calcConvertion
                                 })
             console.log(detailStock)
             detailStock = await this.getSelongsongStock()
