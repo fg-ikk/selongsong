@@ -238,7 +238,7 @@
                                                     <div class="card-block table-border-style">
                                                         <div class="table-responsive" 
                                                             x-cloak
-                                                            x-data="getSelongsong()"
+                                                            x-data="getPosting()"
                                                             
                                                             >
                                                             <div class="form-group row">
@@ -259,18 +259,52 @@
                                                                     <tr class="bg-primary">
                                                                         <th>No</th>
                                                                         <th>Tanggal</th>
-                                                                        <th>No Posting</th>
                                                                         <th>Keterangan</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <template x-for="(posting,index) in dataPosting" >
+                                                                        <tr>
+                                                                            <td scope="row" x-text="index+1"></td>
+                                                                            <td x-text="indoDate(posting.document.fields.Tanggal.timestampValue)"></td>
+                                                                            <td x-text="posting.document.fields.Keterangan.stringValue"></td>
+                                                                            <td>
+                                                                            <a class="btn waves-effect waves-light btn-icon" ><i class="icofont icofont-barcode"></i></a>
+                                                                            <a class="btn waves-effect waves-light btn-icon" ><i class="icofont icofont-search"></i></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </template>
+                                                                </tbody>
+                                                            </table>
+
+                                                            <div class="table-responsive"
+                                                            >
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                    <tr class="bg-primary">
+                                                                        <th>No</th>
+                                                                        <th>Tanggal</th>
+                                                                        <th>NO IML</th>
+                                                                        <th>No DN</th>
+                                                                        <th>Nopol</th>
+                                                                        <th>Nama Supir</th>
+                                                                        <th>Ekspedisi</th>
+                                                                        <th>Qty (Pcs)</th>
                                                                         <th>Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <template x-for="(selongsong,index) in dataSelongsong" >
                                                                         <tr>
-                                                                            <td scope="row" x-text="index+1"></td>
+                                                                            <th scope="row" x-text="index+1"></th>
                                                                             <td x-text="indoDate(selongsong.document.fields.Tanggal.timestampValue)"></td>
-                                                                            <td x-text="selongsong.document.fields.NoPosting.stringValue"></td>
-                                                                            <td x-text="selongsong.document.fields.Keterangan.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.NoIML.integerValue"></td>
+                                                                            <td x-text="selongsong.document.fields.NoDN.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.Nopol.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.NamaSupir.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.Ekspedisi.stringValue"></td>
+                                                                            <td x-text="selongsong.document.fields.Qty.integerValue"></td>
                                                                             <td>
                                                                             <a target="_blank" class="btn waves-effect waves-light btn-icon" x-bind:href="'assets/pages/form/cetakformselongsong.html?id='+selongsong.document.name.split('/').pop()"><i class="icofont icofont-print"></i></a>
                                                                             </td>
@@ -278,6 +312,8 @@
                                                                     </template>
                                                                 </tbody>
                                                             </table>
+                                                        </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -382,7 +418,7 @@
     <script type="text/javascript" src="assets/js/auth.js "></script>
     
     <script>
-        function getSelongsong(){
+        function getPosting(){
             return {
                 templateQueryFilter: {
                     structuredQuery: {
@@ -427,30 +463,11 @@
                                     {
                                     "fieldFilter": {
                                         "field": {
-                                            "fieldPath": "Tanggal"
-                                        },
-                                        "op": "LESS_THAN_OR_EQUAL",
-                                        "value": {
-                                            "timestampValue": ""
-                                        }
-                                    }},
-                                    {"fieldFilter": {
-                                        "field": {
-                                            "fieldPath": "Tanggal"
-                                        },
-                                        "op": "GREATER_THAN_OR_EQUAL",
-                                        "value": {
-                                            "timestampValue": ""
-                                        }
-                                    }},
-                                    {
-                                    "fieldFilter": {
-                                        "field": {
-                                            "fieldPath": "Posted"
+                                            "fieldPath": "postHeaderId"
                                         },
                                         "op": "EQUAL",
                                         "value": {
-                                            "booleanValue": Alpine.store('globVar').selPostedValue
+                                            "stringValue": ""
                                         }
                                     }}  
                                 ]
@@ -468,29 +485,83 @@
                         "limit": 500,
                     }
                 }, 
+                postingQueryFilter: {
+                    structuredQuery: {
+                        select: { 
+                            fields: [
+                                {
+                                "fieldPath": "Tanggal"
+                                },{
+                                "fieldPath": "Keterangan"
+                                },{
+                                "fieldPath": "createdAt"
+                                }
+                            ]
+                        },
+                        from: [{
+                            "collectionId": "posting_selongsong",
+                            "allDescendants": true
+                        }],
+                       "where": {
+                            "compositeFilter" : {
+                                "op": "AND",
+                                "filters": [
+                                    {
+                                    "fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "LESS_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": ""
+                                        }
+                                    }},
+                                    {"fieldFilter": {
+                                        "field": {
+                                            "fieldPath": "Tanggal"
+                                        },
+                                        "op": "GREATER_THAN_OR_EQUAL",
+                                        "value": {
+                                            "timestampValue": ""
+                                        }
+                                    }}
+                                ]
+                        }  
+                        },
+                        "orderBy": [
+                            {
+                            "field": {
+                                    "fieldPath": "Tanggal"
+                                },
+                                "direction": "DESCENDING"
+                            }
+                        ],
+                        "offset": 0,
+                        "limit": 500,
+                    }
+                },
                 queryFilter: {},           
-                dataSelongsong: [],
+                dataPosting: [],
                 dateFrom: "",
                 dateTo: "",
-                selPosted: [
-                    { id: 'true', name: 'Posted' },
-                    { id: 'false', name: 'Not Posted' }
-                ],
-                selPostedValue: "true",
+                dataForm: {
+                    Tanggal: "",
+                    Keterangan: "",
+                    createdAt: "",
+                },
                 getData(){
                     console.log(this.templateQueryFilter)
-                    this.templateQueryFilter.structuredQuery.where.fieldFilter.value.booleanValue = this.selPostedValue
                     let tglFrom = new Date(document.getElementById("txt_tglFrom").value)
                     let tglTo = new Date(document.getElementById("txt_tglTo").value)
-                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[1].fieldFilter.value.timestampValue = tglFrom.toISOString()
-                    this.templateQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value.timestampValue = tglTo.toISOString()
+                    this.postingQueryFilter.structuredQuery.where.compositeFilter.filters[1].fieldFilter.value.timestampValue = tglFrom.toISOString()
+                    this.postingQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value.timestampValue = tglTo.toISOString()
                     fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
                         method: 'POST',
                         headers: { 
                                 //'Authorization': `Bearer ${getToken()}`,
                                 'Content-Type': 'application/json' 
                         },
-                        body: JSON.stringify(this.templateQueryFilter)
+                        body: JSON.stringify(this.postingQueryFilter)
                     })
                     .then((res) => {
                         //console.log(res) 
@@ -498,7 +569,7 @@
                         
                     }) 
                     .then(data => {
-                        this.dataSelongsong = data
+                        this.dataPosting = data
                         console.log(data);
                         //console.log(this.dataSelongsong);
                     })                    
@@ -512,6 +583,38 @@
                         
                     });
                 
+                },
+                getDataSelongsong(headerPosting){
+                    templateQueryFilter.structuredQuery.where.compositeFilter.filters[0].fieldFilter.value = headerPosting
+                    Alpine.store('globVar').isLoading = true
+                    fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
+                    method: 'POST',
+                    headers: { 
+                            //'Authorization': `Bearer ${getToken()}`,
+                            'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(this.templateQueryFilter)
+                })
+                .then((res) => {
+                    //console.log(res) 
+                    return res.json()
+                    
+                }) 
+                .then(data => {
+                    this.dataSelongsong = data
+                    console.log(data);
+                    //console.log(this.dataSelongsong);
+                })                    
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    
+                    // Tangani error di sini
+                })
+                .finally(() => {
+                    Alpine.store('globVar').isLoading = false
+                    
+                });
                 }
             }
 

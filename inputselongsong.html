@@ -641,6 +641,7 @@
       //console.log(txtTracking);
       //qr-reader-results
       const html5QrCode = new Html5Qrcode("qr-reader");
+      var lastResult = 0
         function openScanner(){
         // Opening the scanner
         //html5QrCode.start({ facingMode: { exact: "environment"} }, config, qrCodeSuccessCallback);
@@ -651,10 +652,15 @@
             },
             qrCodeMessage => {
                 // do something when code is read
+                if(lastResult != qrCodeMessage){
+                    txtNoIML.value = qrCodeMessage;
+                    document.getElementById("btnModalScanClose").click();
+                    document.getElementById("btnGetIML").click();
+                    closeScanner();
+                    lastResult = qrCodeMessage
+                }
                 console.log(qrCodeMessage);
-                txtNoIML.value = qrCodeMessage;
-                document.getElementById("btnModalScanClose").click();
-                document.getElementById("btnGetIML").click();
+                
             },
             errorMessage => {
                 // parse error, ignore it.
@@ -667,6 +673,7 @@
         }
         function closeScanner(){
             html5QrCode.stop().then(ignore => {
+                    Alpine.store('globVar').isLoading = false
             }).catch(err => {
             });
         }
